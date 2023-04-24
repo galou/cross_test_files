@@ -1,0 +1,160 @@
+from pathlib import Path
+
+import FreeCAD as fc
+
+from FreeCAD import Vector, Placement, Rotation
+
+from freecad.workbench_ros.joint import make_joint
+from freecad.workbench_ros.link import make_link
+from freecad.workbench_ros.robot import make_robot
+from freecad.workbench_ros.wb_utils import ros_name
+
+
+def get_object(doc: fc.Document, label: str):
+    objs = doc.getObjectsByLabel(label)
+    if objs:
+        return objs[0]
+
+
+def make_links():
+    doc = fc.activeDocument()
+    dir = Path(doc.FileName).parent
+    parts_doc = fc.open(str(dir / 'robot_5r-parts.fcstd'))
+    fc.setActiveDocument(doc.Name)
+
+    visual_base_link_ = doc.addObject('App::Link', 'visual_base_link_')
+    visual_base_link_.LinkedObject = get_object(parts_doc, 'base')
+
+    visual_shoulder_ = doc.addObject('App::Link', 'visual_shoulder_')
+    visual_shoulder_.LinkedObject = get_object(parts_doc, 'shoulder')
+
+    visual_arm_ = doc.addObject('App::Link', 'visual_arm_')
+    visual_arm_.LinkedObject = get_object(parts_doc, 'arm/forearm')
+
+    visual_forearm_ = doc.addObject('App::Link', 'visual_forearm_')
+    visual_forearm_.LinkedObject = get_object(parts_doc, 'arm/forearm')
+
+    visual_hand_ = doc.addObject('App::Link', 'visual_hand_')
+    visual_hand_.LinkedObject = get_object(parts_doc, 'hand')
+
+    collision_base_link_ = doc.addObject('App::Link', 'collision_base_link_')
+    collision_base_link_.LinkedObject = get_object(parts_doc, 'base')
+
+    collision_shoulder_ = doc.addObject('App::Link', 'collision_shoulder_')
+    collision_shoulder_.LinkedObject = get_object(parts_doc, 'shoulder')
+
+    collision_arm_ = doc.addObject('App::Link', 'collision_arm_')
+    collision_arm_.LinkedObject = get_object(parts_doc, 'arm/forearm')
+
+    collision_forearm_ = doc.addObject('App::Link', 'collision_forearm_')
+    collision_forearm_.LinkedObject = get_object(parts_doc, 'arm/forearm')
+
+    collision_hand_ = doc.addObject('App::Link', 'collision_hand_')
+    collision_hand_.LinkedObject = get_object(parts_doc, 'hand')
+
+
+def make_robot_5r():
+    doc = fc.activeDocument()
+
+    base_link = make_link('base_link')
+    base_link.Label2 = 'base_link'
+    base_link.Visual = [get_object(doc, 'visual_base_link_')]
+    base_link.Collision = [get_object(doc, 'collision_base_link_')]
+    base_link.MountedPlacement = Placement(Vector(0.0, 0.0, 0.0),
+                                           Rotation(0.0, 0.0, 0.0, 1.0))
+
+    shoulder = make_link('shoulder')
+    shoulder.Label2 = 'shoulder'
+    shoulder.Visual = [get_object(doc, 'visual_shoulder_')]
+    shoulder.Collision = [get_object(doc, 'collision_shoulder_')]
+    shoulder.MountedPlacement = Placement(Vector(0.0, 0.0, 0.0),
+                                          Rotation(0.0, 0.0, 0.0, 1.0))
+
+    arm = make_link('arm')
+    arm.Label2 = 'arm'
+    arm.Visual = [get_object(doc, 'visual_arm_')]
+    arm.Collision = [get_object(doc, 'collision_arm_')]
+    arm.MountedPlacement = Placement(Vector(0.0, 0.0, 0.0),
+                                     Rotation(0.0, 0.0, 0.0, 1.0))
+    arm.MountedPlacement = Placement(Vector(0.0, -45.0, 60.0),
+                                     Rotation(Vector(1.0, 0.0, 0.0), -90.0))
+
+    forearm = make_link('forearm')
+    forearm.Label2 = 'forearm'
+    forearm.Visual = [get_object(doc, 'visual_forearm_')]
+    forearm.Collision = [get_object(doc, 'collision_forearm_')]
+    forearm.MountedPlacement = Placement(Vector(0.0, 45.0, 60.0),
+                                         (Rotation(Vector(0.0, 0.0, 1.0), 180.0)
+                                         * Rotation(Vector(1.0, 0.0, 0.0), -90.0)))
+
+    hand = make_link('hand')
+    hand.Label2 = 'hand'
+    hand.Visual = [get_object(doc, 'visual_hand_')]
+    hand.Collision = [get_object(doc, 'collision_hand_')]
+    hand.MountedPlacement = Placement(Vector(0.0, 0.0, 0.0),
+                                      Rotation(0.0, 0.0, 0.0, 1.0))
+
+    base_shoulder = make_joint('base_shoulder')
+    base_shoulder.Label2 = 'base-shoulder'
+    base_shoulder.Origin = Placement(Vector(0.0, 0.0, 20.0),
+                                     Rotation(0.0, 0.0, 0.0, 1.0))
+    base_shoulder.Type = 'revolute'
+
+    shoulder_arm = make_joint('shoulder_arm')
+    shoulder_arm.Label2 = 'shoulder-arm'
+    shoulder_arm.Origin = Placement(Vector(0.0, 0.0, 0.0),
+                                    Rotation(0.0, 0.0, 0.0, 1.0))
+    shoulder_arm.Origin = Placement(Vector(0.0, -60.0, 55.0),
+                                    Rotation(Vector(1.0, 0.0, 0.0), 90.0))
+    shoulder_arm.Type = 'revolute'
+
+    arm_forearm = make_joint('arm_forearm')
+    arm_forearm.Label2 = 'arm-forearm'
+    arm_forearm.Origin = Placement(Vector(0.0, 0.0, 0.0),
+                                   Rotation(0.0, 0.0, 0.0, 1.0))
+    arm_forearm.Origin = Placement(Vector(0.0, 700.0, 0.0),
+                                   Rotation(Vector(1.0, 0.0, 0.0), 180.0))
+    arm_forearm.Type = 'revolute'
+
+    forearm_hand = make_joint('forearm_hand')
+    forearm_hand.Label2 = 'forearm-hand'
+    forearm_hand.Origin = Placement(Vector(0.0, 0.0, 0.0),
+                                    Rotation(0.0, 0.0, 0.0, 1.0))
+    forearm_hand.Origin = Placement(Vector(0.0, -700.0, 0.0),
+                                    Rotation(Vector(0.0, 1.0, 0.0), 180.0))
+    forearm_hand.Type = 'revolute'
+
+    robot = make_robot('robot_5r')
+    robot.Group = [
+            base_link,
+            shoulder,
+            arm,
+            forearm,
+            hand,
+            base_shoulder,
+            shoulder_arm,
+            arm_forearm,
+            forearm_hand,
+            ]
+    # robot.recompute()
+    robot.ViewObject.ShowCollision = False
+    robot.ViewObject.ShowJointAxes = True
+    robot.ViewObject.ShowReal = False
+    robot.ViewObject.ShowVisual = True
+
+    base_shoulder.Parent = ros_name(base_link)
+    base_shoulder.Child = ros_name(shoulder)
+
+    shoulder_arm.Parent = ros_name(shoulder)
+    shoulder_arm.Child = ros_name(arm)
+
+    arm_forearm.Parent = ros_name(arm)
+    arm_forearm.Child = ros_name(forearm)
+
+    forearm_hand.Parent = ros_name(forearm)
+    forearm_hand.Child = ros_name(hand)
+
+    doc.recompute()
+
+
+make_robot_5r()
