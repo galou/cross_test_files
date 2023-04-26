@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="robot_0" params="prefix">
+    <link name="${prefix}base_link">
+      <visual>
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.005"/>
+        <geometry>
+          <cylinder length="0.010" radius="0.010"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.005"/>
+        <geometry>
+          <cylinder length="0.01" radius="0.010"/>
+        </geometry>
+      </collision>
+    </link>
+  </xacro:macro>
+
+</robot>

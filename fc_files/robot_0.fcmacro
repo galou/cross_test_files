@@ -1,0 +1,49 @@
+# Generate a robot with just a link.
+# Generate robot_0.
+
+from FreeCAD import Vector, Placement, Rotation
+import Sketcher
+import Part
+import FreeCAD as app
+
+from freecad.workbench_ros.link import make_link
+from freecad.workbench_ros.robot import make_robot
+from freecad.workbench_ros.wb_utils import ros_name
+
+
+def make_robot_0():
+    doc = app.activeDocument()
+
+    cylinder = doc.addObject('Part::Cylinder', 'Cylinder')
+    cylinder.Radius = 5.0
+    cylinder.Height = 10.0
+
+    base = doc.addObject('App::Part', 'base')
+    base.addObject(cylinder)
+    base.Visibility = False
+
+    parts = doc.addObject('App::DocumentObjectGroup', 'Parts')
+    parts.Group = [base]
+    parts.Visibility = False
+
+    robot_0 = make_robot('robot_0', doc)
+
+    base_link = make_link('base_link', doc)
+    robot_0.addObject(base_link)
+    base_link.Label2 = 'base_link'
+    base_link.Real = [base]
+    base_link.Visual = [base]
+    base_link.Collision = [base]
+    base_link.MountedPlacement = Placement(Vector(0.0, 0.0, 0.0),
+                                           Rotation(0.0, 0.0, 0.0, 1.0))
+
+    robot_0.ViewObject.JointAxisLength = 50.0
+    robot_0.ViewObject.ShowJointAxes = True
+    robot_0.ViewObject.ShowReal = False
+    robot_0.ViewObject.ShowVisual = True
+    robot_0.ViewObject.ShowCollision = False
+
+    doc.recompute()
+
+
+make_robot_0()

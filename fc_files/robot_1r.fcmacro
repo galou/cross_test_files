@@ -68,7 +68,6 @@ def make_robot_1r():
                              Rotation(0.0, 0.0, 0.0, 1.0))
     joint.Type = 'revolute'
 
-    robot_1r.Group = [base_link, joint, shoulder_link]
     robot_1r.ViewObject.JointAxisLength = 50.0
     robot_1r.ViewObject.ShowJointAxes = True
     robot_1r.ViewObject.ShowReal = False
