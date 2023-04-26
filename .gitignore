@@ -160,7 +160,7 @@ cython_debug/
 #.idea/
 
 # FreeCAD backup files.
-*.fcstd
+*.FcStd1
 *.fcstd1
 *.fcbak
 *.FcBak
