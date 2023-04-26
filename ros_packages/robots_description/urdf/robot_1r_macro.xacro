@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="robot_1r" params="prefix">
+    <link name="${prefix}base_link">
+      <visual>
+        <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.005"/>
+        <geometry>
+          <cylinder length="0.01" radius="0.005"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.005"/>
+        <geometry>
+          <cylinder length="0.01" radius="0.005"/>
+        </geometry>
+      </collision>
+    </link>
+    <link name="${prefix}shoulder">
+      <visual>
+        <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.005"/>
+        <geometry>
+          <box size="0.01 0.01 0.01"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.005"/>
+        <geometry>
+          <box size="0.01 0.01 0.01"/>
+        </geometry>
+      </collision>
+    </link>
+    <joint name="${prefix}baselink-shoulder" type="revolute">
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}shoulder"/>
+      <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.01"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="0.0" lower="0.0" upper="0.0" velocity="0.0"/>
+    </joint>
+  </xacro:macro>
+
+</robot>

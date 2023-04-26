@@ -1,0 +1,81 @@
+# Generate a robot with one revolute joint.
+# Generate robot_1r.fcstd.
+
+from FreeCAD import Vector, Placement, Rotation
+import Sketcher
+import Part
+import FreeCAD as app
+
+from freecad.workbench_ros.joint import make_joint
+from freecad.workbench_ros.link import make_link
+from freecad.workbench_ros.robot import make_robot
+from freecad.workbench_ros.wb_utils import ros_name
+
+
+def make_robot_1r():
+    doc = app.activeDocument()
+
+    cylinder = doc.addObject('Part::Cylinder', 'Cylinder')
+    cylinder.Radius = 5.0
+    cylinder.Height = 10.0
+
+    cube = doc.addObject('Part::Box', 'Cube')
+    cube.Length = 10.0
+    cube.Width = 10.0
+    cube.Height = 10.0
+    cube.setExpression('.Placement.Base.x', '-Length / 2')
+    cube.setExpression('.Placement.Base.y', '-Width / 2')
+
+    base = doc.addObject('App::Part', 'base')
+    base.addObject(cylinder)
+    base.Visibility = False
+
+    shoulder = doc.addObject('App::Part', 'shoulder')
+    shoulder.addObject(cube)
+    shoulder.Visibility = False
+
+    parts = doc.addObject('App::DocumentObjectGroup', 'Parts')
+    parts.Group = [base, shoulder]
+    parts.Visibility = False
+
+    robot_1r = make_robot('robot_1r', doc)
+
+    base_link = make_link('base_link', doc)
+    robot_1r.addObject(base_link)
+    base_link.Label2 = 'base_link'
+    base_link.Real = [base]
+    base_link.Visual = [base]
+    base_link.Collision = [base]
+    base_link.MountedPlacement = Placement(Vector(0.0, 0.0, 0.0),
+                                           Rotation(0.0, 0.0, 0.0, 1.0))
+
+    shoulder_link = make_link('shoulder_link', doc)
+    robot_1r.addObject(shoulder_link)
+    shoulder_link.Label2 = 'shoulder'
+    shoulder_link.Visual = [shoulder]
+    shoulder_link.Real = [shoulder]
+    shoulder_link.Collision = [shoulder]
+    shoulder_link.MountedPlacement = Placement(Vector(0.0, 0.0, 0.0),
+                                               Rotation(0.0, 0.0, 0.0, 1.0))
+
+    joint = make_joint('joint', doc)
+    robot_1r.addObject(joint)
+    joint.Label2 = 'baselink-shoulder'
+    joint.Parent = ros_name(base_link)
+    joint.Child = ros_name(shoulder_link)
+    joint.setExpression('.Origin.Base.z', f'<<{cylinder.Label}>>.Height')
+    joint.Origin = Placement(Vector(0.0, 0.0, 10.0),
+                             Rotation(0.0, 0.0, 0.0, 1.0))
+    joint.Type = 'revolute'
+
+    robot_1r.Group = [base_link, joint, shoulder_link]
+    robot_1r.ViewObject.JointAxisLength = 50.0
+    robot_1r.ViewObject.ShowJointAxes = True
+    robot_1r.ViewObject.ShowReal = False
+    robot_1r.ViewObject.ShowVisual = True
+    robot_1r.ViewObject.ShowCollision = False
+
+    doc.recompute()
+
+
+make_robot_1r()
