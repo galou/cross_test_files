@@ -1,127 +1,115 @@
 <?xml version="1.0" ?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:macro name="robot-5r" params="prefix">
-  <link name="${prefix}base_link">
-    <visual>
-      <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.01"/>
-      <geometry>
-        <cylinder length="0.02" radius="0.15"/>
-      </geometry>
-    </visual>
-    <visual>
-      <!--Body-->
-      <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.0"/>
-      <geometry>
-        <mesh filename="package://robots_description/meshes/Body.dae"/>
-      </geometry>
-    </visual>
-    <collision>
-      <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.01"/>
-      <geometry>
-        <cylinder length="0.02" radius="0.15"/>
-      </geometry>
-    </collision>
-    <collision>
-      <!--Body-->
-      <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.0"/>
-      <geometry>
-        <mesh filename="package://robots_description/meshes/Body.dae"/>
-      </geometry>
-    </collision>
-  </link>
-  <link name="${prefix}shoulder">
-    <visual>
-      <!--Body001-->
-      <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.0"/>
-      <geometry>
-        <mesh filename="package://robots_description/meshes/Body001.dae"/>
-      </geometry>
-    </visual>
-    <collision>
-      <!--Body001-->
-      <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.0"/>
-      <geometry>
-        <mesh filename="package://robots_description/meshes/Body001.dae"/>
-      </geometry>
-    </collision>
-  </link>
-  <link name="${prefix}arm">
-    <visual>
-      <!--Body002-->
-      <origin rpy="-1.570796326794897 -0.0 0.0" xyz="0.0 -0.045 0.06"/>
-      <geometry>
-        <mesh filename="package://robots_description/meshes/Body002.dae"/>
-      </geometry>
-    </visual>
-    <collision>
-      <!--Body002-->
-      <origin rpy="-1.570796326794897 -0.0 0.0" xyz="0.0 -0.045 0.06"/>
-      <geometry>
-        <mesh filename="package://robots_description/meshes/Body002.dae"/>
-      </geometry>
-    </collision>
-  </link>
-  <link name="${prefix}forearm">
-    <visual>
-      <!--Body002-->
-      <origin rpy="-1.570796326794897 -0.0 3.141592653589793" xyz="0.0 0.045 0.06"/>
-      <geometry>
-        <mesh filename="package://robots_description/meshes/Body002.dae"/>
-      </geometry>
-    </visual>
-    <collision>
-      <!--Body002-->
-      <origin rpy="-1.570796326794897 -0.0 3.141592653589793" xyz="0.0 0.045 0.06"/>
-      <geometry>
-        <mesh filename="package://robots_description/meshes/Body002.dae"/>
-      </geometry>
-    </collision>
-  </link>
-  <link name="${prefix}hand">
-    <visual>
-      <!--Body003-->
-      <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.0"/>
-      <geometry>
-        <mesh filename="package://robots_description/meshes/Body003.dae"/>
-      </geometry>
-    </visual>
-    <collision>
-      <!--Body003-->
-      <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.0"/>
-      <geometry>
-        <mesh filename="package://robots_description/meshes/Body003.dae"/>
-      </geometry>
-    </collision>
-  </link>
-  <joint name="${prefix}base-shoulder" type="revolute">
-    <parent link="${prefix}base_link"/>
-    <child link="${prefix}shoulder"/>
-    <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.02"/>
-    <axis xyz="0 0 1"/>
-    <limit effort="0.0" lower="0.0" upper="0.0" velocity="0.0"/>
-  </joint>
-  <joint name="${prefix}shoulder-arm" type="revolute">
-    <parent link="${prefix}shoulder"/>
-    <child link="${prefix}arm"/>
-    <origin rpy="1.5707963267948966 -0.0 0.0" xyz="0.0 -0.06 0.055"/>
-    <axis xyz="0 0 1"/>
-    <limit effort="0.0" lower="0.0" upper="0.0" velocity="0.0"/>
-  </joint>
-  <joint name="${prefix}arm-forearm" type="revolute">
-    <parent link="${prefix}arm"/>
-    <child link="${prefix}forearm"/>
-    <origin rpy="3.141592653589793 -0.0 0.0" xyz="0.0 0.7 0.0"/>
-    <axis xyz="0 0 1"/>
-    <limit effort="0.0" lower="0.0" upper="0.0" velocity="0.0"/>
-  </joint>
-  <joint name="${prefix}forearm-hand" type="revolute">
-    <parent link="${prefix}forearm"/>
-    <child link="${prefix}hand"/>
-    <origin rpy="3.141592653589793 1.224646799147353e-16 3.141592653589793" xyz="0.0 -0.7 0.0"/>
-    <axis xyz="0 0 1"/>
-    <limit effort="0.0" lower="0.0" upper="0.0" velocity="0.0"/>
-  </joint>
+  <xacro:macro name="robot_5r" params="prefix">
+
+    <link name="${prefix}base_link">
+      <visual>
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.010"/>
+        <geometry>
+          <cylinder length="0.020" radius="0.150"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.010"/>
+        <geometry>
+          <cylinder length="0.020" radius="0.150"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="${prefix}shoulder">
+      <visual>
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+        <geometry>
+          <mesh filename="package://robots_description/meshes/shoulder.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.050"/>
+        <geometry>
+          <cylinder length="0.100" radius="0.050"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="${prefix}arm">
+      <visual>
+        <origin rpy="${-pi / 2.0} 0.0 0.0" xyz="0.0 -0.045 0.06"/>
+        <geometry>
+          <mesh filename="package://robots_description/meshes/arm.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin rpy="${-pi / 2.0} 0.0 0.0" xyz="0.0 0.355 0.0523359"/>
+        <geometry>
+          <box size="0.090 0.105 0.800"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="${prefix}forearm">
+      <visual>
+        <origin rpy="${-pi / 2.0} 0.0 ${pi}" xyz="0.0 0.045 0.060"/>
+        <geometry>
+          <mesh filename="package://robots_description/meshes/arm.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin rpy="${-pi / 2.0} 0.0 ${pi}" xyz="0.0 -0.355 0.0523359"/>
+        <geometry>
+          <box size="0.090 0.105 0.800"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="${prefix}hand">
+      <visual>
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+        <geometry>
+          <mesh filename="package://robots_description/meshes/hand.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 -0.0101 0.050"/>
+        <geometry>
+          <box size="0.080 0.100 0.100"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${prefix}base-shoulder" type="revolute">
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}shoulder"/>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.020"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="20.0" lower="${-pi}" upper="${pi}" velocity="1.0"/>
+    </joint>
+
+    <joint name="${prefix}shoulder-arm" type="revolute">
+      <parent link="${prefix}shoulder"/>
+      <child link="${prefix}arm"/>
+      <origin rpy="${pi / 2.0} 0.0 0.0" xyz="0.0 -0.060 0.055"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="50.0" lower="${-pi / 2.0}" upper="${pi / 2.0}" velocity="1.0"/>
+    </joint>
+
+    <joint name="${prefix}arm-forearm" type="revolute">
+      <parent link="${prefix}arm"/>
+      <child link="${prefix}forearm"/>
+      <origin rpy="${pi} 0.0 0.0" xyz="0.0 0.700 0.0"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="25.0" lower="${-radians(160)}" upper="${radians(160)}" velocity="1.0"/>
+    </joint>
+
+    <joint name="${prefix}forearm-hand" type="revolute">
+      <parent link="${prefix}forearm"/>
+      <child link="${prefix}hand"/>
+      <origin rpy="${pi} 0.0 ${pi}" xyz="0.0 -0.700 0.0"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="10.0" lower="${-pi}" upper="${pi}" velocity="1.0"/>
+    </joint>
+
   </xacro:macro>
-  
+
 </robot>
