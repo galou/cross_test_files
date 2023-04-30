@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import FreeCAD as fc
+import FreeCADGui as fcgui
 
 from FreeCAD import Vector, Placement, Rotation
 
@@ -8,6 +9,7 @@ from freecad.workbench_ros.joint import make_joint
 from freecad.workbench_ros.link import make_link
 from freecad.workbench_ros.robot import make_robot
 from freecad.workbench_ros.wb_utils import ros_name
+from freecad.workbench_ros.freecad_utils import make_group
 
 
 def get_object(doc: fc.Document, label: str):
@@ -38,19 +40,34 @@ def make_links():
     visual_hand_.LinkedObject = get_object(parts_doc, 'hand')
 
     collision_base_link_ = doc.addObject('App::Link', 'collision_base_link_')
-    collision_base_link_.LinkedObject = get_object(parts_doc, 'base')
+    collision_base_link_.LinkedObject = get_object(parts_doc, 'base_collision')
 
     collision_shoulder_ = doc.addObject('App::Link', 'collision_shoulder_')
-    collision_shoulder_.LinkedObject = get_object(parts_doc, 'shoulder')
+    collision_shoulder_.LinkedObject = get_object(parts_doc, 'shoulder_collision')
 
     collision_arm_ = doc.addObject('App::Link', 'collision_arm_')
-    collision_arm_.LinkedObject = get_object(parts_doc, 'arm/forearm')
+    collision_arm_.LinkedObject = get_object(parts_doc, 'arm_collision')
 
     collision_forearm_ = doc.addObject('App::Link', 'collision_forearm_')
-    collision_forearm_.LinkedObject = get_object(parts_doc, 'arm/forearm')
+    collision_forearm_.LinkedObject = get_object(parts_doc, 'arm_collision')
 
     collision_hand_ = doc.addObject('App::Link', 'collision_hand_')
-    collision_hand_.LinkedObject = get_object(parts_doc, 'hand')
+    collision_hand_.LinkedObject = get_object(parts_doc, 'hand_collision')
+
+    parts_group = make_group(doc, 'Parts')
+    parts_group.addObject(visual_base_link_)
+    parts_group.addObject(visual_shoulder_)
+    parts_group.addObject(visual_arm_)
+    parts_group.addObject(visual_forearm_)
+    parts_group.addObject(visual_hand_)
+    parts_group.addObject(collision_base_link_)
+    parts_group.addObject(collision_shoulder_)
+    parts_group.addObject(collision_arm_)
+    parts_group.addObject(collision_forearm_)
+    parts_group.addObject(collision_hand_)
+    parts_group.Visibility = False
+
+    doc.recompute()
 
 
 def make_robot_5r():
@@ -136,7 +153,7 @@ def make_robot_5r():
             arm_forearm,
             forearm_hand,
             ]
-    # robot.recompute()
+
     robot.ViewObject.ShowCollision = False
     robot.ViewObject.ShowJointAxes = True
     robot.ViewObject.ShowReal = False
@@ -157,4 +174,6 @@ def make_robot_5r():
     doc.recompute()
 
 
+make_links()
 make_robot_5r()
+fcgui.SendMsgToActiveView('ViewFit')
