@@ -1,0 +1,115 @@
+from pathlib import Path
+
+import FreeCAD as fc
+
+import FreeCADGui as fcgui
+
+from FreeCAD import Vector, Placement, Rotation
+
+from freecad.workbench_ros.freecad_utils import make_group
+from freecad.workbench_ros.joint import make_joint
+from freecad.workbench_ros.link import make_link
+from freecad.workbench_ros.robot import make_robot
+from freecad.workbench_ros.wb_utils import ros_name
+
+
+def get_object(doc: fc.Document, label: str):
+    objs = doc.getObjectsByLabel(label)
+    if objs:
+        return objs[0]
+
+
+def make_links():
+    doc = fc.activeDocument()
+    dir = Path(doc.FileName).parent
+    parts_doc = fc.open(str(dir / 'parallel_fingers-parts.fcstd'))
+    fc.setActiveDocument(doc.Name)
+
+    visual_palm_ = doc.addObject('App::Link', 'visual_palm_')
+    visual_palm_.LinkedObject = get_object(parts_doc, 'palm')
+
+    visual_finger_ = doc.addObject('App::Link', 'visual_finger_')
+    visual_finger_.LinkedObject = get_object(parts_doc, 'finger')
+
+    collision_palm_ = doc.addObject('App::Link', 'collision_palm_')
+    collision_palm_.LinkedObject = get_object(parts_doc, 'palm_collision')
+
+    collision_finger_ = doc.addObject('App::Link', 'collision_finger_')
+    collision_finger_.LinkedObject = get_object(parts_doc, 'finger_collision')
+
+    parts_group = make_group(doc, 'Parts')
+    parts_group.addObject(visual_palm_)
+    parts_group.addObject(visual_finger_)
+    parts_group.addObject(collision_palm_)
+    parts_group.addObject(collision_finger_)
+    parts_group.Visibility = False
+
+
+def make_parallel_fingers():
+    doc = fc.activeDocument()
+
+    palm_link = make_link('palm')
+    palm_link.Label2 = 'palm'
+    palm_link.Visual = [get_object(doc, 'visual_palm_')]
+    palm_link.Collision = [get_object(doc, 'collision_palm_')]
+    palm_link.MountedPlacement = Placement(Vector(0.0, 0.0, 0.0),
+                                           Rotation(Vector(1.0, 0.0, 0.0), 180.0))
+
+    right_finger = make_link('right_finger')
+    right_finger.Label2 = 'right_finger'
+    right_finger.Visual = [get_object(doc, 'visual_finger_')]
+    right_finger.Collision = [get_object(doc, 'collision_finger_')]
+    right_finger.MountedPlacement = Placement(Vector(0.0, 0.0, 5.0),
+                                              (Rotation(Vector(0.0, 1.0, 0.0), 90.0)
+                                               * Rotation(Vector(1.0, 0.0, 0.0), 180.0)))
+
+    left_finger = make_link('left_finger')
+    left_finger.Label2 = 'left_finger'
+    left_finger.Visual = [get_object(doc, 'visual_finger_')]
+    left_finger.Collision = [get_object(doc, 'collision_finger_')]
+    left_finger.MountedPlacement = Placement(Vector(0.0, 0.0, 5.0),
+                                             (Rotation(Vector(0.0, 1.0, 0.0), 90.0)
+                                              * Rotation(Vector(1.0, 0.0, 0.0), 180.0)))
+
+    palm_right_finger = make_joint('palm_right_finger')
+    palm_right_finger.Label2 = 'palm_right_finger'
+    palm_right_finger.Origin = Placement(Vector(0.0, 0.0, 0.0),
+                                         (Rotation(Vector(0.0, 0.0, 1.0), -90.0)
+                                          * Rotation(Vector(1.0, 0.0, 0.0), -90.0)))
+    palm_right_finger.Type = 'prismatic'
+
+    palm_left_finger = make_joint('palm_left_finger')
+    palm_left_finger.Label2 = ' palm_left_finger'
+    palm_left_finger.Origin = Placement(Vector(0.0, 0.0, 0.0),
+                                        (Rotation(Vector(0.0, 0.0, 1.0), 90.0)
+                                         * Rotation(Vector(1.0, 0.0, 0.0), -90.0)))
+    palm_left_finger.Type = 'prismatic'
+    palm_left_finger.Mimic = True
+    palm_left_finger.MimickedJoint = palm_right_finger
+
+    robot = make_robot('parallel_fingers')
+    robot.Group = [
+            palm_link,
+            right_finger,
+            left_finger,
+            palm_right_finger,
+            palm_left_finger,
+            ]
+
+    robot.ViewObject.ShowCollision = False
+    robot.ViewObject.ShowJointAxes = True
+    robot.ViewObject.ShowReal = False
+    robot.ViewObject.ShowVisual = True
+
+    palm_right_finger.Parent = ros_name(palm_link)
+    palm_right_finger.Child = ros_name(right_finger)
+
+    palm_left_finger.Parent = ros_name(palm_link)
+    palm_left_finger.Child = ros_name(left_finger)
+
+    doc.recompute()
+
+
+make_links()
+make_parallel_fingers()
+fcgui.SendMsgToActiveView('ViewFit')
