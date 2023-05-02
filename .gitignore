@@ -163,4 +163,4 @@ cython_debug/
 *.FcStd1
 *.fcstd1
 *.fcbak
-*.FcBak
+*.FCBak
