@@ -1,0 +1,266 @@
+from pathlib import Path
+
+import FreeCAD as fc
+import FreeCADGui as fcgui
+
+from FreeCAD import Vector, Placement, Rotation
+
+from freecad.workbench_ros.freecad_utils import make_group
+from freecad.workbench_ros.joint import make_joint
+from freecad.workbench_ros.link import make_link
+from freecad.workbench_ros.robot import make_robot
+from freecad.workbench_ros.wb_utils import ros_name
+
+
+def get_object(doc: fc.Document, label: str):
+    objs = doc.getObjectsByLabel(label)
+    if objs:
+        return objs[0]
+
+
+def make_links():
+    doc = fc.activeDocument()
+    dir = Path(doc.FileName).parent
+    parts_doc = fc.open(str(dir / 'robot_5r-complete.fcstd'))
+    fc.setActiveDocument(doc.Name)
+
+    visual_base_= doc.addObject('App::Link', 'visual_base_')
+    visual_base_.LinkedObject = get_object(parts_doc, 'base')
+
+    visual_shoulder_ = doc.addObject('App::Link', 'visual_shoulder_')
+    visual_shoulder_.LinkedObject = get_object(parts_doc, 'shoulder')
+
+    visual_arm_ = doc.addObject('App::Link', 'visual_arm_')
+    visual_arm_.LinkedObject = get_object(parts_doc, 'arm/forearm')
+
+    visual_forearm_ = doc.addObject('App::Link', 'visual_forearm_')
+    visual_forearm_.LinkedObject = get_object(parts_doc, 'arm/forearm')
+
+    visual_hand_ = doc.addObject('App::Link', 'visual_hand_')
+    visual_hand_.LinkedObject = get_object(parts_doc, 'hand')
+
+    visual_palm_ = doc.addObject('App::Link', 'visual_palm_')
+    visual_palm_.LinkedObject = get_object(parts_doc, 'palm')
+
+    visual_right_finger_ = doc.addObject('App::Link', 'visual_right_finger_')
+    visual_right_finger_.LinkedObject = get_object(parts_doc, 'finger')
+
+    visual_left_finger_ = doc.addObject('App::Link', 'visual_left_finger_')
+    visual_left_finger_.LinkedObject = get_object(parts_doc, 'finger')
+
+    collision_base_ = doc.addObject('App::Link', 'collision_base_')
+    collision_base_.LinkedObject = get_object(parts_doc, 'base_collision')
+
+    collision_shoulder_ = doc.addObject('App::Link', 'collision_shoulder_')
+    collision_shoulder_.LinkedObject = get_object(parts_doc, 'shoulder_collision')
+
+    collision_arm_ = doc.addObject('App::Link', 'collision_arm_')
+    collision_arm_.LinkedObject = get_object(parts_doc, 'arm_collision')
+
+    collision_forearm_ = doc.addObject('App::Link', 'collision_forearm_')
+    collision_forearm_.LinkedObject = get_object(parts_doc, 'arm_collision')
+
+    collision_hand_ = doc.addObject('App::Link', 'collision_hand_')
+    collision_hand_.LinkedObject = get_object(parts_doc, 'hand_collision')
+
+    collision_palm_ = doc.addObject('App::Link', 'collision_palm_')
+    collision_palm_.LinkedObject = get_object(parts_doc, 'palm_collision')
+
+    collision_right_finger_ = doc.addObject('App::Link', 'collision_right_finger_')
+    collision_right_finger_.LinkedObject = get_object(parts_doc, 'finger_collision')
+
+    collision_left_finger_ = doc.addObject('App::Link', 'collision_left_finger_')
+    collision_left_finger_.LinkedObject = get_object(parts_doc, 'finger_collision')
+
+    parts_group = make_group(doc, 'Parts')
+    parts_group.addObject(visual_base_)
+    parts_group.addObject(visual_shoulder_)
+    parts_group.addObject(visual_arm_)
+    parts_group.addObject(visual_forearm_)
+    parts_group.addObject(visual_hand_)
+    parts_group.addObject(visual_palm_)
+    parts_group.addObject(visual_right_finger_)
+    parts_group.addObject(visual_left_finger_)
+    parts_group.addObject(collision_base_)
+    parts_group.addObject(collision_shoulder_)
+    parts_group.addObject(collision_arm_)
+    parts_group.addObject(collision_forearm_)
+    parts_group.addObject(collision_hand_)
+    parts_group.addObject(collision_palm_)
+    parts_group.addObject(collision_right_finger_)
+    parts_group.addObject(collision_left_finger_)
+    parts_group.Visibility = False
+
+    doc.recompute()
+
+
+def make_robot_5r_complete():
+    doc = fc.activeDocument()
+
+    base = make_link('base')
+    base.Label2 = 'base'
+    base.Visual = [get_object(doc, 'visual_base_')]
+    base.Collision = [get_object(doc, 'collision_link_')]
+    base.MountedPlacement = Placement(Vector(0.0, 0.0, 0.0),
+                                           Rotation(0.0, 0.0, 0.0, 1.0))
+
+    shoulder = make_link('shoulder')
+    shoulder.Label2 = 'shoulder'
+    shoulder.Visual = [get_object(doc, 'visual_shoulder_')]
+    shoulder.Collision = [get_object(doc, 'collision_shoulder_')]
+    shoulder.MountedPlacement = Placement(Vector(0.0, 0.0, 0.0),
+                                          Rotation(0.0, 0.0, 0.0, 1.0))
+
+    arm = make_link('arm')
+    arm.Label2 = 'arm'
+    arm.Visual = [get_object(doc, 'visual_arm_')]
+    arm.Collision = [get_object(doc, 'collision_arm_')]
+    arm.MountedPlacement = Placement(Vector(0.0, 0.0, 0.0),
+                                     Rotation(0.0, 0.0, 0.0, 1.0))
+    arm.MountedPlacement = Placement(Vector(0.0, -45.0, 60.0),
+                                     Rotation(Vector(1.0, 0.0, 0.0), -90.0))
+
+    forearm = make_link('forearm')
+    forearm.Label2 = 'forearm'
+    forearm.Visual = [get_object(doc, 'visual_forearm_')]
+    forearm.Collision = [get_object(doc, 'collision_forearm_')]
+    forearm.MountedPlacement = Placement(Vector(0.0, 45.0, 60.0),
+                                         (Rotation(Vector(0.0, 0.0, 1.0), 180.0)
+                                         * Rotation(Vector(1.0, 0.0, 0.0), -90.0)))
+
+    hand = make_link('hand')
+    hand.Label2 = 'hand'
+    hand.Visual = [get_object(doc, 'visual_hand_')]
+    hand.Collision = [get_object(doc, 'collision_hand_')]
+    hand.MountedPlacement = Placement(Vector(0.0, 0.0, 0.0),
+                                      Rotation(0.0, 0.0, 0.0, 1.0))
+
+    palm = make_link('palm')
+    palm.Label2 = 'palm'
+    palm.Visual = [get_object(doc, 'visual_palm_')]
+    palm.Collision = [get_object(doc, 'collision_palm_')]
+    palm.MountedPlacement = Placement(Vector(0.0, 0.0, 0.0),
+                                      Rotation(0.0, 0.0, 0.0, 1.0))
+
+    right_finger = make_link('right_finger')
+    right_finger.Label2 = 'right_finger'
+    right_finger.Visual = [get_object(doc, 'visual_right_finger_')]
+    right_finger.Collision = [get_object(doc, 'collision_right_finger_')]
+    right_finger.MountedPlacement = Placement(Vector(0.0, 0.0, 0.0),
+                                      Rotation(Vector(0.0, 1.0, 0.0), 90.0))
+
+    left_finger = make_link('left_finger')
+    left_finger.Label2 = 'left_finger'
+    left_finger.Visual = [get_object(doc, 'visual_left_finger_')]
+    left_finger.Collision = [get_object(doc, 'collision_left_finger_')]
+    left_finger.MountedPlacement = Placement(Vector(0.0, 0.0, 0.0),
+                                      Rotation(Vector(0.0, 1.0, 0.0), 90.0))
+
+    base_shoulder = make_joint('base_shoulder')
+    base_shoulder.Label2 = 'base-shoulder'
+    base_shoulder.Origin = Placement(Vector(0.0, 0.0, 20.0),
+                                     Rotation(0.0, 0.0, 0.0, 1.0))
+    base_shoulder.Type = 'revolute'
+
+    shoulder_arm = make_joint('shoulder_arm')
+    shoulder_arm.Label2 = 'shoulder-arm'
+    shoulder_arm.Origin = Placement(Vector(0.0, 0.0, 0.0),
+                                    Rotation(0.0, 0.0, 0.0, 1.0))
+    shoulder_arm.Origin = Placement(Vector(0.0, -60.0, 55.0),
+                                    Rotation(Vector(1.0, 0.0, 0.0), 90.0))
+    shoulder_arm.Type = 'revolute'
+
+    arm_forearm = make_joint('arm_forearm')
+    arm_forearm.Label2 = 'arm-forearm'
+    arm_forearm.Origin = Placement(Vector(0.0, 0.0, 0.0),
+                                   Rotation(0.0, 0.0, 0.0, 1.0))
+    arm_forearm.Origin = Placement(Vector(0.0, 700.0, 0.0),
+                                   Rotation(Vector(1.0, 0.0, 0.0), 180.0))
+    arm_forearm.Type = 'revolute'
+
+    forearm_hand = make_joint('forearm_hand')
+    forearm_hand.Label2 = 'forearm-hand'
+    forearm_hand.Origin = Placement(Vector(0.0, 0.0, 0.0),
+                                    Rotation(0.0, 0.0, 0.0, 1.0))
+    forearm_hand.Origin = Placement(Vector(0.0, -700.0, 0.0),
+                                    Rotation(Vector(0.0, 1.0, 0.0), 180.0))
+    forearm_hand.Type = 'revolute'
+
+    hand_palm = make_joint('hand_palm')
+    hand_palm.Label2 = 'hand_palm'
+    hand_palm.Origin = Placement(Vector(0.0, 0.0, 0.0),
+                                    Rotation(0.0, 0.0, 0.0, 1.0))
+    hand_palm.Origin = Placement(Vector(0.0, -60.0, 45.0),
+                                    Rotation(Vector(1.0, 0.0, 0.0), 90.0))
+    hand_palm.Type = 'revolute'
+
+    palm_right_finger = make_joint('palm_right_finger')
+    palm_right_finger.Label2 = 'palm_right_finger'
+    palm_right_finger.Origin = Placement(Vector(0.0, 0.0, 0.0),
+                                    Rotation(0.0, 0.0, 0.0, 1.0))
+    palm_right_finger.Origin = Placement(Vector(0.0, -5.0, 40.0),
+                                    Rotation(Vector(1.0, 0.0, 0.0), 90.0))
+    palm_right_finger.Type = 'prismatic'
+
+    palm_left_finger = make_joint('palm_left_finger')
+    palm_left_finger.Label2 = 'palm_left_finger'
+    palm_left_finger.Origin = Placement(Vector(0.0, 0.0, 0.0),
+                                    Rotation(0.0, 0.0, 0.0, 1.0))
+    palm_left_finger.Origin = Placement(Vector(0.0, 5.0, 40.0),
+                                    Rotation(Vector(0.0, 0.71, 0.71), 180.0))
+    palm_left_finger.Type = 'prismatic'
+    palm_left_finger.Mimic = True
+    palm_left_finger.MimickedJoint = palm_right_finger
+
+
+    robot = make_robot('robot_5r_complete')
+    robot.Group = [
+            base,
+            shoulder,
+            arm,
+            forearm,
+            hand,
+	   palm,
+	   right_finger,
+	   left_finger,
+            base_shoulder,
+            shoulder_arm,
+            arm_forearm,
+            forearm_hand,
+	   hand_palm,
+	   palm_right_finger,
+	   palm_left_finger
+            ]
+
+    robot.ViewObject.ShowCollision = False
+    robot.ViewObject.ShowJointAxes = True
+    robot.ViewObject.ShowReal = False
+    robot.ViewObject.ShowVisual = True
+
+    base_shoulder.Parent = ros_name(base)
+    base_shoulder.Child = ros_name(shoulder)
+
+    shoulder_arm.Parent = ros_name(shoulder)
+    shoulder_arm.Child = ros_name(arm)
+
+    arm_forearm.Parent = ros_name(arm)
+    arm_forearm.Child = ros_name(forearm)
+
+    forearm_hand.Parent = ros_name(forearm)
+    forearm_hand.Child = ros_name(hand)
+
+    hand_palm.Parent = ros_name(hand)
+    hand_palm.Child = ros_name(palm)
+
+    palm_right_finger.Parent = ros_name(palm)
+    palm_right_finger.Child = ros_name(right_finger)
+
+    palm_left_finger.Parent = ros_name(palm)
+    palm_left_finger.Child = ros_name(left_finger)
+
+    doc.recompute()
+
+
+make_links()
+make_robot_5r_complete()
+fcgui.SendMsgToActiveView('ViewFit')
