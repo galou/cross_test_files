@@ -3,16 +3,15 @@
 
   <xacro:macro name="parallel_fingers" params="prefix">
 
-    <link name="${prefix}hand_link">
+    <link name="${prefix}palm">
       <visual>
-	<!--Body-->
-	<origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.0"/>
+	<origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
 	<geometry>
-	  <mesh filename="package://robots_description/meshes/Body.dae"/>
+	  <mesh filename="package://robots_description/meshes/palm.dae"/>
 	</geometry>
       </visual>
       <collision>
-	<origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.02"/>
+	<origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.020"/>
 	<geometry>
 	  <cylinder length="0.04" radius="0.04"/>
 	</geometry>
@@ -21,51 +20,49 @@
 
     <link name="${prefix}right_finger">
       <visual>
-	<!--Body001-->
-	<origin rpy="-3.141592653589793 1.5707963267948966 0.0" xyz="0.0 0.0 0.0"/>
+	<origin rpy="${-pi} ${pi / 2.0} 0.0" xyz="0.0 0.0 0.0"/>
 	<geometry>
-	  <mesh filename="package://robots_description/meshes/Body001.dae"/>
+	  <mesh filename="package://robots_description/meshes/finger.dae"/>
 	</geometry>
       </visual>
       <collision>
-	<origin rpy="-3.141592653589793 1.5707963267948966 0.0" xyz="-3.55271e-18 -0.03 -2.66454e-18"/>
+	<origin rpy="${-pi} ${pi / 2.0} 0.0" xyz="0.0 -0.030 0.0"/>
 	<geometry>
-	  <box size="0.01 0.06 0.04"/>
+	  <box size="0.010 0.060 0.040"/>
 	</geometry>
       </collision>
     </link>
 
     <link name="${prefix}left_finger">
       <visual>
-	<!--Body001-->
-	<origin rpy="3.141592653589793 -1.5707963267948966 0.0" xyz="0.0 0.0 0.0"/>
+	<origin rpy="${pi} ${-pi / 2.0} 0.0" xyz="0.0 0.0 0.0"/>
 	<geometry>
-	  <mesh filename="package://robots_description/meshes/Body001.dae"/>
+	  <mesh filename="package://robots_description/meshes/finger.dae"/>
 	</geometry>
       </visual>
       <collision>
-	<origin rpy="3.141592653589793 -1.5707963267948966 0.0" xyz="-3.55271e-18 -0.03 2.66454e-18"/>
+	<origin rpy="${-pi} ${-pi / 2.0} 0.0" xyz="0.0 -0.030 0.0"/>
 	<geometry>
-	  <box size="0.01 0.06 0.04"/>
+	  <box size="0.010 0.060 0.040"/>
 	</geometry>
       </collision>
     </link>
 
-    <joint name="${prefix}hand_right_finger" type="prismatic">
-      <parent link="${prefix}hand_link"/>
+    <joint name="${prefix}palm-right_finger" type="prismatic">
+      <parent link="${prefix}palm"/>
       <child link="${prefix}right_finger"/>
-      <origin rpy="1.5707963267948963 2.220446049250313e-16 1.5707963267948963" xyz="0.005 0.0 0.0"/>
+      <origin rpy="${pi / 2.0} 0.0 ${pi / 2.0}" xyz="0.005 0.0 0.0"/>
       <axis xyz="0 0 1"/>
-      <limit effort="0.0" lower="0.0" upper="0.0" velocity="0.0"/>
+      <limit effort="10.0" lower="0.0" upper="0.020" velocity="0.0"/>
     </joint>
 
-    <joint name="${prefix}hand_left_finger" type="prismatic">
-      <parent link="${prefix}hand_link"/>
+    <joint name="${prefix}palm-left_finger" type="prismatic">
+      <parent link="${prefix}palm"/>
       <child link="${prefix}left_finger"/>
-      <origin rpy="1.5707963267948963 -2.220446049250313e-16 -1.5707963267948963" xyz="-0.005 0.0 0.0"/>
+      <mimic joint="${prefix}palm-right_finger" multiplier="1.0" offset="0.0"/>
+      <origin rpy="${pi / 2.0} 0.0 ${-pi / 2.0}" xyz="-0.005 0.0 0.0"/>
       <axis xyz="0 0 1"/>
-      <limit effort="0.0" lower="0.0" upper="0.0" velocity="0.0"/>
-      <mimic joint="${prefix}hand_right_finger" multiplier="1.0" offset="0.0"/>
+      <limit effort="10.0" lower="0.0" upper="0.020" velocity="0.0"/>
     </joint>
 
   </xacro:macro>
