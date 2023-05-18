@@ -5,11 +5,19 @@ import FreeCADGui as fcgui
 
 from FreeCAD import Vector, Placement, Rotation
 
+<<<<<<< HEAD
 from freecad.workbench_ros.freecad_utils import make_group
 from freecad.workbench_ros.joint import make_joint
 from freecad.workbench_ros.link import make_link
 from freecad.workbench_ros.robot import make_robot
 from freecad.workbench_ros.wb_utils import ros_name
+=======
+from freecad.cross.freecad_utils import make_group
+from freecad.cross.joint import make_joint
+from freecad.cross.link import make_link
+from freecad.cross.robot import make_robot
+from freecad.cross.wb_utils import ros_name
+>>>>>>> 4aea11695123668365fd426a3f460f699039595c
 
 
 def get_object(doc: fc.Document, label: str):

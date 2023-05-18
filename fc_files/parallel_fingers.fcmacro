@@ -6,11 +6,11 @@ import FreeCADGui as fcgui
 
 from FreeCAD import Vector, Placement, Rotation
 
-from freecad.workbench_ros.freecad_utils import make_group
-from freecad.workbench_ros.joint import make_joint
-from freecad.workbench_ros.link import make_link
-from freecad.workbench_ros.robot import make_robot
-from freecad.workbench_ros.wb_utils import ros_name
+from freecad.cross.freecad_utils import make_group
+from freecad.cross.joint import make_joint
+from freecad.cross.link import make_link
+from freecad.cross.robot import make_robot
+from freecad.cross.wb_utils import ros_name
 
 
 def get_object(doc: fc.Document, label: str):
@@ -77,6 +77,9 @@ def make_parallel_fingers():
                                          (Rotation(Vector(0.0, 0.0, 1.0), -90.0)
                                           * Rotation(Vector(1.0, 0.0, 0.0), -90.0)))
     palm_right_finger.Type = 'prismatic'
+    palm_right_finger.Effort = 10.0
+    palm_right_finger.LowerLimit = 0.0
+    palm_right_finger.UpperLimit = 20.0
 
     palm_left_finger = make_joint('palm_left_finger')
     palm_left_finger.Label2 = ' palm_left_finger'
@@ -86,15 +89,18 @@ def make_parallel_fingers():
     palm_left_finger.Type = 'prismatic'
     palm_left_finger.Mimic = True
     palm_left_finger.MimickedJoint = palm_right_finger
+    palm_right_finger.Effort = 10.0
+    palm_right_finger.LowerLimit = 0.0
+    palm_right_finger.UpperLimit = 20.0
 
     robot = make_robot('parallel_fingers')
     robot.Group = [
-            palm_link,
-            right_finger,
-            left_finger,
-            palm_right_finger,
-            palm_left_finger,
-            ]
+        palm_link,
+        right_finger,
+        left_finger,
+        palm_right_finger,
+        palm_left_finger,
+        ]
 
     robot.ViewObject.ShowCollision = False
     robot.ViewObject.ShowJointAxes = True

@@ -6,10 +6,10 @@ import Sketcher
 import Part
 import FreeCAD as app
 
-from freecad.workbench_ros.joint import make_joint
-from freecad.workbench_ros.link import make_link
-from freecad.workbench_ros.robot import make_robot
-from freecad.workbench_ros.wb_utils import ros_name
+from freecad.cross.joint import make_joint
+from freecad.cross.link import make_link
+from freecad.cross.robot import make_robot
+from freecad.cross.wb_utils import ros_name
 
 
 def make_robot_1r():
