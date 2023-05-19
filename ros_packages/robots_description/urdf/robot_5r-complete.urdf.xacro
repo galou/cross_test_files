@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<robot name="simple_robot" xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="robot_5r-complete" xmlns:xacro="http://ros.org/wiki/xacro">
 
   <xacro:include filename="$(find robots_description)/urdf/robot_5r_macro.xacro" />
   <xacro:include filename="$(find robots_description)/urdf/parallel_fingers_macro.xacro" />
