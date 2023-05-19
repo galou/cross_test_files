@@ -1,0 +1,50 @@
+import FreeCAD as fc
+
+from FreeCAD import Placement, Rotation, Vector
+
+from freecad.cross.joint import make_joint
+from freecad.cross.xacro_object import make_xacro_object
+from freecad.cross.workcell import make_workcell
+
+
+def make_robot_5r_complete():
+    doc = fc.activeDocument()
+
+    robot_5r_complete = make_workcell('robot_5r_complete')
+
+    # Must be created before the links, so that the enums of `Parent`
+    # and `Child` are populated.
+    robot5r_parallelfingers = make_joint('robot5r-parallelfingers')
+    robot_5r_complete.addObject(robot5r_parallelfingers)
+    robot5r_parallelfingers.Label2 = 'robot5r-parallelfingers'
+    robot5r_parallelfingers.Type = 'fixed'
+    robot5r_parallelfingers.Origin = Placement(Vector(0.0, -100.0, 45.0),
+                                               (Rotation(Vector(0, 1, 0), 90.0)
+                                                * Rotation(Vector(1, 0, 0), -90.0)))
+    robot5r_parallelfingers.ViewObject.AxisLength = 500.0
+    robot5r_parallelfingers.ViewObject.ShowAxis = True
+
+    parallel_fingers = make_xacro_object('parallel_fingers')
+    robot_5r_complete.addObject(parallel_fingers)
+    parallel_fingers.Label2 = 'parallel_fingers'
+    parallel_fingers.InputFile = 'robots_description/urdf/parallel_fingers_macro.xacro'
+    parallel_fingers.MainMacro = 'parallel_fingers'
+    parallel_fingers.prefix = ''
+
+    robot_5r = make_xacro_object('robot_5r')
+    robot_5r_complete.addObject(robot_5r)
+    robot_5r.Label2 = 'robot_5r'
+    robot_5r.InputFile = 'robots_description/urdf/robot_5r_macro.xacro'
+    robot_5r.MainMacro = 'robot_5r'
+    robot_5r.prefix = ''
+
+    # Must be done after the links are created.
+    robot5r_parallelfingers.Parent = 'hand'
+    robot5r_parallelfingers.Child = 'palm'
+
+    robot_5r_complete.OutputPath = 'robots_description'
+
+    doc.recompute()
+
+
+make_robot_5r_complete()
