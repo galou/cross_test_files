@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+
+<robot name="workcell-robot_5r-complete" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find robots_description)/urdf/robot_5r_macro.xacro"/>
+  <xacro:include filename="$(find robots_description)/urdf/parallel_fingers_macro.xacro"/>
+
+  <xacro:robot_5r prefix=""/>
+
+  <xacro:parallel_fingers prefix=""/>
+
+  <joint name="hand_to_palm" type="fixed">
+    <parent link="hand"/>
+    <child link="palm"/>
+    <origin rpy="${-pi / 2.0} ${pi / 2.0} 0.0" xyz="0.0 -0.100 0.045"/>
+  </joint>
+
+</robot>
