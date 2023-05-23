@@ -21,56 +21,57 @@ def get_object(doc: fc.Document, label: str):
 def make_links():
     doc = fc.activeDocument()
     dir = Path(doc.FileName).parent
-    parts_doc = fc.open(str(dir / 'robot_5r-complete.fcstd'))
+    robot5r_parts_doc = fc.open(str(dir / 'robot_5r-parts.fcstd'))
+    fingers_parts_doc = fc.open(str(dir / 'parallel_fingers-parts.fcstd'))
     fc.setActiveDocument(doc.Name)
 
     visual_base_ = doc.addObject('App::Link', 'visual_base_')
-    visual_base_.LinkedObject = get_object(parts_doc, 'base')
+    visual_base_.LinkedObject = get_object(robot5r_parts_doc, 'base')
 
     visual_shoulder_ = doc.addObject('App::Link', 'visual_shoulder_')
-    visual_shoulder_.LinkedObject = get_object(parts_doc, 'shoulder')
+    visual_shoulder_.LinkedObject = get_object(robot5r_parts_doc, 'shoulder')
 
     visual_arm_ = doc.addObject('App::Link', 'visual_arm_')
-    visual_arm_.LinkedObject = get_object(parts_doc, 'arm/forearm')
+    visual_arm_.LinkedObject = get_object(robot5r_parts_doc, 'arm/forearm')
 
     visual_forearm_ = doc.addObject('App::Link', 'visual_forearm_')
-    visual_forearm_.LinkedObject = get_object(parts_doc, 'arm/forearm')
+    visual_forearm_.LinkedObject = get_object(robot5r_parts_doc, 'arm/forearm')
 
     visual_hand_ = doc.addObject('App::Link', 'visual_hand_')
-    visual_hand_.LinkedObject = get_object(parts_doc, 'hand')
+    visual_hand_.LinkedObject = get_object(robot5r_parts_doc, 'hand')
 
     visual_palm_ = doc.addObject('App::Link', 'visual_palm_')
-    visual_palm_.LinkedObject = get_object(parts_doc, 'palm')
+    visual_palm_.LinkedObject = get_object(fingers_parts_doc, 'palm')
 
     visual_right_finger_ = doc.addObject('App::Link', 'visual_right_finger_')
-    visual_right_finger_.LinkedObject = get_object(parts_doc, 'finger')
+    visual_right_finger_.LinkedObject = get_object(fingers_parts_doc, 'finger')
 
     visual_left_finger_ = doc.addObject('App::Link', 'visual_left_finger_')
-    visual_left_finger_.LinkedObject = get_object(parts_doc, 'finger')
+    visual_left_finger_.LinkedObject = get_object(fingers_parts_doc, 'finger')
 
     collision_base_ = doc.addObject('App::Link', 'collision_base_')
-    collision_base_.LinkedObject = get_object(parts_doc, 'base_collision')
+    collision_base_.LinkedObject = get_object(robot5r_parts_doc, 'base_collision')
 
     collision_shoulder_ = doc.addObject('App::Link', 'collision_shoulder_')
-    collision_shoulder_.LinkedObject = get_object(parts_doc, 'shoulder_collision')
+    collision_shoulder_.LinkedObject = get_object(robot5r_parts_doc, 'shoulder_collision')
 
     collision_arm_ = doc.addObject('App::Link', 'collision_arm_')
-    collision_arm_.LinkedObject = get_object(parts_doc, 'arm_collision')
+    collision_arm_.LinkedObject = get_object(robot5r_parts_doc, 'arm_collision')
 
     collision_forearm_ = doc.addObject('App::Link', 'collision_forearm_')
-    collision_forearm_.LinkedObject = get_object(parts_doc, 'arm_collision')
+    collision_forearm_.LinkedObject = get_object(robot5r_parts_doc, 'arm_collision')
 
     collision_hand_ = doc.addObject('App::Link', 'collision_hand_')
-    collision_hand_.LinkedObject = get_object(parts_doc, 'hand_collision')
+    collision_hand_.LinkedObject = get_object(robot5r_parts_doc, 'hand_collision')
 
     collision_palm_ = doc.addObject('App::Link', 'collision_palm_')
-    collision_palm_.LinkedObject = get_object(parts_doc, 'palm_collision')
+    collision_palm_.LinkedObject = get_object(fingers_parts_doc, 'palm_collision')
 
     collision_right_finger_ = doc.addObject('App::Link', 'collision_right_finger_')
-    collision_right_finger_.LinkedObject = get_object(parts_doc, 'finger_collision')
+    collision_right_finger_.LinkedObject = get_object(fingers_parts_doc, 'finger_collision')
 
     collision_left_finger_ = doc.addObject('App::Link', 'collision_left_finger_')
-    collision_left_finger_.LinkedObject = get_object(parts_doc, 'finger_collision')
+    collision_left_finger_.LinkedObject = get_object(fingers_parts_doc, 'finger_collision')
 
     parts_group = make_group(doc, 'Parts')
     parts_group.addObject(visual_base_)
