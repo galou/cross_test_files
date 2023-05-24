@@ -1,0 +1,232 @@
+from pathlib import Path
+
+import FreeCAD as fc
+import FreeCADGui as fcgui
+
+from FreeCAD import Vector, Placement, Rotation
+
+from freecad.cross.freecad_utils import make_group
+from freecad.cross.joint import make_joint
+from freecad.cross.link import make_link
+from freecad.cross.robot import make_robot
+from freecad.cross.wb_utils import ros_name
+
+
+def get_object(doc: fc.Document, label: str):
+    objs = doc.getObjectsByLabel(label)
+    if objs:
+        return objs[0]
+
+
+def make_links():
+    doc = fc.activeDocument()
+    dir = Path(doc.FileName).parent
+    parts_doc = fc.open(str(dir / 'mobile_robot-parts.FCStd'))
+    fc.setActiveDocument(doc.Name)
+
+    visual_undercarriage = doc.addObject('App::Link', 'visual_undercarriage')
+    visual_undercarriage.LinkedObject = get_object(parts_doc, 'undercarriage')
+    
+    visual_hub = doc.addObject('App::Link', 'visual_hub')
+    visual_hub.LinkedObject = get_object(parts_doc, 'hub')
+    
+    visual_wheel = doc.addObject('App::Link', 'visual_wheel')
+    visual_wheel.LinkedObject = get_object(parts_doc, 'wheel')
+
+    collision_undercarriage = doc.addObject('App::Link', 'collision_undercarriage')
+    collision_undercarriage.LinkedObject = get_object(parts_doc, 'collision_undercarriage')
+
+    collision_hub = doc.addObject('App::Link', 'collision_hub')
+    collision_hub.LinkedObject = get_object(parts_doc, 'collision_hub')
+
+    collision_wheel = doc.addObject('App::Link', 'collision_wheel')
+    collision_wheel.LinkedObject = get_object(parts_doc, 'collision_wheel')
+
+
+    parts_group = make_group(doc, 'Parts')
+    parts_group.addObject(visual_undercarriage)
+    parts_group.addObject(visual_hub)
+    parts_group.addObject(visual_wheel)
+    parts_group.addObject(collision_undercarriage)
+    parts_group.addObject(collision_hub)
+    parts_group.addObject(collision_wheel)
+    parts_group.Visibility = False
+
+    doc.recompute()
+
+
+def make_mobile_robot():
+    doc = fc.activeDocument()
+
+    undercarriage = make_link('undercarriage')
+    undercarriage.Label2 = 'undercarriage'
+    undercarriage.Visual = [get_object(doc, 'visual_undercarriage')]
+    undercarriage.Collision = [get_object(doc, 'collision_undercarriage')]
+    undercarriage.MountedPlacement = Placement(Vector(0.0, 0.0, 0.0),
+                                         Rotation(Vector(0.0, 0.0, 1.0), 0.0))
+
+    hub_hr = make_link('hub_hr')
+    hub_hr.Label2 = 'hub_hr'
+    hub_hr.Visual = [get_object(doc, 'visual_hub')]
+    hub_hr.Collision = [get_object(doc, 'collision_hub')]
+    hub_hr.MountedPlacement = Placement(Vector(0.0, 0.0, 0.0),
+                                         Rotation(Vector(0.0, 0.0, 1.0), 0.0))
+
+    hub_hl = make_link('hub_hl')
+    hub_hl.Label2 = 'hub_hl'
+    hub_hl.Visual = [get_object(doc, 'visual_hub')]
+    hub_hl.Collision = [get_object(doc, 'collision_hub')]
+    hub_hl.MountedPlacement = Placement(Vector(0.0, 0.0, 0.0),
+                                         Rotation(Vector(0.0, 0.0, 1.0), 0.0))
+
+    hub_br = make_link('hub_br')
+    hub_br.Label2 = 'hub_br'
+    hub_br.Visual = [get_object(doc, 'visual_hub')]
+    hub_br.Collision = [get_object(doc, 'collision_hub')]
+    hub_br.MountedPlacement = Placement(Vector(0.0, 0.0, 0.0),
+                                         Rotation(Vector(0.0, 0.0, 1.0), 0.0))
+
+    hub_bl = make_link('hub_bl')
+    hub_bl.Label2 = 'hub_bl'
+    hub_bl.Visual = [get_object(doc, 'visual_hub')]
+    hub_bl.Collision = [get_object(doc, 'collision_hub')]
+    hub_bl.MountedPlacement = Placement(Vector(0.0, 0.0, 0.0),
+                                         Rotation(Vector(0.0, 0.0, 1.0), 0.0))
+
+    wheel_hr = make_link('wheel_hr')
+    wheel_hr.Label2 = 'wheel_hr'
+    wheel_hr.Visual = [get_object(doc, 'visual_wheel')]
+    wheel_hr.Collision = [get_object(doc, 'collision_wheel')]
+    wheel_hr.MountedPlacement = Placement(Vector(0.00, 0.00, 10.00), 
+                                         (Rotation(Vector(0.0, 0.0, 1.0), -90.0)
+                                         * Rotation(Vector(1.0, 0.0, 0.0), -180.0)))
+
+    wheel_hl = make_link('wheel_hl')
+    wheel_hl.Label2 = 'wheel_hl'
+    wheel_hl.Visual = [get_object(doc, 'visual_wheel')]
+    wheel_hl.Collision = [get_object(doc, 'collision_wheel')]
+    wheel_hl.MountedPlacement = Placement(Vector(0.0, 0.0, 10.0),
+                                         (Rotation(Vector(0.0, 0.0, 1.0), -90.0)
+                                         * Rotation(Vector(1.0, 0.0, 0.0), -180.0)))
+
+    wheel_br = make_link('wheel_br')
+    wheel_br.Label2 = 'wheel_br'
+    wheel_br.Visual = [get_object(doc, 'visual_wheel')]
+    wheel_br.Collision = [get_object(doc, 'collision_wheel')]
+    wheel_br.MountedPlacement = Placement(Vector(0.0, 0.0, 10.0),
+                                         (Rotation(Vector(0.0, 0.0, 1.0), -90.0)
+                                         * Rotation(Vector(1.0, 0.0, 0.0), -180.0)))
+
+    wheel_bl = make_link('wheel_bl')
+    wheel_bl.Label2 = 'wheel_bl'
+    wheel_bl.Visual = [get_object(doc, 'visual_wheel')]
+    wheel_bl.Collision = [get_object(doc, 'collision_wheel')]
+    wheel_bl.MountedPlacement = Placement(Vector(0.0, 0.0, 10.0),
+                                         (Rotation(Vector(0.0, 0.0, 1.0), -90.0)
+                                         * Rotation(Vector(1.0, 0.0, 0.0), -180.0)))
+
+
+    joint_hub_hr = make_joint('joint_hub_hr')
+    joint_hub_hr.Label2 = 'joint_hub_hr'
+    joint_hub_hr.Origin = Placement(Vector(100.0, -150.0, -5.0),
+                                         Rotation(Vector(1.0, 0.0, 0.0), 180.0))
+    joint_hub_hr.Type = 'revolute'
+
+    joint_hub_hl = make_joint('joint_hub_hl')
+    joint_hub_hl.Label2 = 'joint_hub_hl'
+    joint_hub_hl.Origin = Placement(Vector(-100.0, -150.0, -5.0),
+                                         Rotation(Vector(0.0, 1.0, 0.0), 180.0))
+    joint_hub_hl.Type = 'revolute'
+
+    joint_hub_br = make_joint('joint_hub_br')
+    joint_hub_br.Label2 = 'joint_hub_br'
+    joint_hub_br.Origin = Placement(Vector(100.0,150.0, -5.0),
+                                         Rotation(Vector(1.0, 0.0, 0.0), 180.0))
+    joint_hub_br.Type = 'revolute'
+
+    joint_hub_bl = make_joint('joint_hub_bl')
+    joint_hub_bl.Label2 = 'joint_hub_bl'
+    joint_hub_bl.Origin = Placement(Vector(-100.0, 150.0, -5.0),
+                                         Rotation(Vector(0.0, 1.0, 0.0),180.0))
+    joint_hub_bl.Type = 'revolute'
+
+    joint_wheel_hr = make_joint('joint_wheel_hr')
+    joint_wheel_hr.Label2 = 'joint_wheel_hr'
+    joint_wheel_hr.Origin = Placement(Vector(5.0, 0.0, 45.0),
+                                         Rotation(Vector(0.0, 1.0, 0.0), 90.0))
+    joint_wheel_hr.Type = 'revolute'
+
+    joint_wheel_hl = make_joint('joint_wheel_hl')
+    joint_wheel_hl.Label2 = 'joint_wheel_hl'
+    joint_wheel_hl.Origin = Placement(Vector(5.0, 0.0, 45.0),
+                                         Rotation(Vector(0.0, 1.0, 0.0), 90.0))
+    joint_wheel_hl.Type = 'revolute'
+
+    joint_wheel_br = make_joint('joint_wheel_br')
+    joint_wheel_br.Label2 = 'joint_wheel_br'
+    joint_wheel_br.Origin = Placement(Vector(5.0, 0.0, 45.0),
+                                         Rotation(Vector(0.0, 1.0, 0.0), 90.0))
+    joint_wheel_br.Type = 'revolute'
+
+    joint_wheel_bl = make_joint('joint_wheel_bl')
+    joint_wheel_bl.Label2 = 'joint_wheel_bl'
+    joint_wheel_bl.Origin = Placement(Vector(5.0, 0.0, 45.0),
+                                         Rotation(Vector(0.0, 1.0, 0.0), 90.0))
+    joint_wheel_bl.Type = 'revolute'
+
+    robot = make_robot('mobile_robot')
+    robot.Group = [
+            undercarriage,
+            hub_hr,
+            hub_hl,
+            hub_br,
+            hub_bl,
+            wheel_hr,
+            wheel_hl,
+            wheel_br,
+            wheel_bl,
+            joint_hub_hr,
+            joint_hub_hl,
+            joint_hub_br,
+            joint_hub_bl,
+            joint_wheel_hr,
+            joint_wheel_hl,
+            joint_wheel_br,
+            joint_wheel_bl,
+            ]
+
+    robot.ViewObject.ShowCollision = False
+    robot.ViewObject.ShowJointAxes = True
+    robot.ViewObject.ShowReal = False
+    robot.ViewObject.ShowVisual = True
+
+    joint_hub_hr.Parent = ros_name(undercarriage)
+    joint_hub_hr.Child = ros_name(hub_hr)
+
+    joint_hub_hl.Parent = ros_name(undercarriage)
+    joint_hub_hl.Child = ros_name(hub_hl)
+
+    joint_hub_br.Parent = ros_name(undercarriage)
+    joint_hub_br.Child = ros_name(hub_br)
+
+    joint_hub_bl.Parent = ros_name(undercarriage)
+    joint_hub_bl.Child = ros_name(hub_bl)
+
+    joint_wheel_hr.Parent = ros_name(hub_hr)
+    joint_wheel_hr.Child = ros_name(wheel_hr)
+
+    joint_wheel_hl.Parent = ros_name(hub_hl)
+    joint_wheel_hl.Child = ros_name(wheel_hl)
+
+    joint_wheel_br.Parent = ros_name(hub_br)
+    joint_wheel_br.Child = ros_name(wheel_br)
+
+    joint_wheel_bl.Parent = ros_name(hub_bl)
+    joint_wheel_bl.Child = ros_name(wheel_bl)
+
+    doc.recompute()
+
+
+make_links()
+make_mobile_robot()
+fcgui.SendMsgToActiveView('ViewFit')
