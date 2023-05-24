@@ -138,7 +138,7 @@ def make_robot_5r():
 
     shoulder_arm = make_joint('shoulder-arm')
     shoulder_arm.Label2 = 'shoulder-arm'
-    shoulder_arm.Origin = Placement(Vector(0.0, -60.0, 55.0),
+    shoulder_arm.Origin = Placement(Vector(0.0, -60.0, 70.0),
                                     Rotation(Vector(1.0, 0.0, 0.0), 90.0))
     shoulder_arm.Type = 'revolute'
 
