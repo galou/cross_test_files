@@ -97,26 +97,25 @@ def add_cross_link(
 
 
 def make_mobile_robot():
-    identity = Placement()
-
     doc = fc.activeDocument()
 
     robot = make_robot('mobile_robot')
 
-    undercarriage = make_link('undercarriage')
-    robot.addObject(undercarriage)
-    undercarriage.Label2 = 'undercarriage'
-    undercarriage.Visual = [get_object(doc, 'visual_undercarriage')]
-    undercarriage.Collision = [get_object(doc, 'collision_undercarriage')]
-    undercarriage.MountedPlacement = identity
+    undercarriage = add_cross_link(robot, 'undercarriage',
+                                   'visual_undercarriage', 'collision_undercarriage',
+                                   Placement(Vector(), rotz(-90.0)))
 
-    hub_hr = add_cross_link(robot, 'hub_hr', 'visual_hub', 'collision_hub', identity)
+    hub_hr = add_cross_link(robot, 'hub_hr', 'visual_hub', 'collision_hub',
+                            Placement(Vector(), rotz(-90.0)))
 
-    hub_hl = add_cross_link(robot, 'hub_hl', 'visual_hub', 'collision_hub', identity)
+    hub_hl = add_cross_link(robot, 'hub_hl', 'visual_hub', 'collision_hub',
+                            Placement(Vector(), rotz(-90.0)))
 
-    hub_br = add_cross_link(robot, 'hub_br', 'visual_hub', 'collision_hub', identity)
+    hub_br = add_cross_link(robot, 'hub_br', 'visual_hub', 'collision_hub',
+                            Placement(Vector(), rotz(-90.0)))
 
-    hub_bl = add_cross_link(robot, 'hub_bl', 'visual_hub', 'collision_hub', identity)
+    hub_bl = add_cross_link(robot, 'hub_bl', 'visual_hub', 'collision_hub',
+                            Placement(Vector(), rotz(-90.0)))
 
     wheel_hr = add_cross_link(robot, 'wheel_hr', 'visual_wheel', 'collision_wheel',
                               Placement(Vector(0.0, 0.0, 10.0), rotz(-90.0) * rotx(-180.0)))
@@ -131,28 +130,28 @@ def make_mobile_robot():
                               Placement(Vector(0.0, 0.0, 10.0), rotz(-90.0) * rotx(-180.0)))
 
     joint_hub_hr = add_joint(robot, 'undercarriage-hub_hr',
-                             Placement(Vector(100.0, -150.0, -5.0), rotx(180.0)))
+                             Placement(Vector(-150.0, -100.0, -5.0), rotx(180.0)))
 
     joint_hub_hl = add_joint(robot, 'undercarriage-hub_hl',
-                             Placement(Vector(-100.0, -150.0, -5.0), roty(180.0)))
+                             Placement(Vector(-150.0, 100.0, -5.0), roty(180.0)))
 
     joint_hub_br = add_joint(robot, 'undercarriage-hub_br',
-                             Placement(Vector(100.0, 150.0, -5.0), rotx(180.0)))
+                             Placement(Vector(150.0, -100.0, -5.0), rotx(180.0)))
 
     joint_hub_bl = add_joint(robot, 'undercarriage-hub_bl',
-                             Placement(Vector(-100.0, 150.0, -5.0), roty(180.0)))
+                             Placement(Vector(150.0, 100.0, -5.0), roty(180.0)))
 
     joint_wheel_hr = add_joint(robot, 'hub_hr-wheel_hr',
-                               Placement(Vector(5.0, 0.0, 45.0), roty(90.0)))
+                               Placement(Vector(5.0, 0.0, 45.0), rotx(-90.0)))
 
     joint_wheel_hl = add_joint(robot, 'hub_hl-wheel_hl',
-                               Placement(Vector(5.0, 0.0, 45.0), roty(90.0)))
+                               Placement(Vector(5.0, 0.0, 45.0), rotx(-90.0)))
 
     joint_wheel_br = add_joint(robot, 'hub_br-wheel_br',
-                               Placement(Vector(5.0, 0.0, 45.0), roty(90.0)))
+                               Placement(Vector(5.0, 0.0, 45.0), rotx(-90.0)))
 
     joint_wheel_bl = add_joint(robot, 'hub_bl-wheel_bl',
-                               Placement(Vector(5.0, 0.0, 45.0), roty(90.0)))
+                               Placement(Vector(5.0, 0.0, 45.0), rotx(-90.0)))
 
     # Set visibilities after links are added.
     robot.ViewObject.ShowCollision = False
