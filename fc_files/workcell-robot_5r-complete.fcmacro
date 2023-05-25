@@ -28,6 +28,7 @@ def make_robot_5r_complete():
     robot_5r_complete.addObject(parallel_fingers)
     parallel_fingers.Label2 = 'parallel_fingers'
     parallel_fingers.InputFile = 'robots_description/urdf/parallel_fingers_macro.xacro'
+    parallel_fingers.recompute()  # Required to  populate the enum `MainMacro`.
     parallel_fingers.MainMacro = 'parallel_fingers'
     parallel_fingers.prefix = ''
 
@@ -35,6 +36,7 @@ def make_robot_5r_complete():
     robot_5r_complete.addObject(robot_5r)
     robot_5r.Label2 = 'robot_5r'
     robot_5r.InputFile = 'robots_description/urdf/robot_5r_macro.xacro'
+    robot_5r.recompute()  # Required to  populate the enum `MainMacro`.
     robot_5r.MainMacro = 'robot_5r'
     robot_5r.prefix = ''
 
