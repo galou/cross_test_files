@@ -1,33 +1,24 @@
+from __future__ import annotations
+
 from pathlib import Path
 
 import FreeCAD as fc
+from FreeCAD import Placement
+from FreeCAD import Vector
+
 import FreeCADGui as fcgui
 
-from FreeCAD import Placement, Rotation, Vector
 
 from freecad.cross.freecad_utils import make_group
-from freecad.cross.joint import make_joint
-from freecad.cross.link import make_link
 from freecad.cross.robot import make_robot
 from freecad.cross.wb_utils import ros_name
 
-
-def get_object(doc: fc.Document, label: str):
-    objs = doc.getObjectsByLabel(label)
-    if objs:
-        return objs[0]
-
-
-def rotx(angle_deg: float) -> Rotation:
-    return Rotation(Vector(1.0, 0.0, 0.0), angle_deg)
-
-
-def roty(angle_deg: float) -> Rotation:
-    return Rotation(Vector(0.0, 1.0, 0.0), angle_deg)
-
-
-def rotz(angle_deg: float) -> Rotation:
-    return Rotation(Vector(0.0, 0.0, 1.0), angle_deg)
+from cross_macro_utils import add_cross_link
+from cross_macro_utils import add_joint
+from cross_macro_utils import get_object
+from cross_macro_utils import rotx
+from cross_macro_utils import roty
+from cross_macro_utils import rotz
 
 
 def make_fc_links():
@@ -64,36 +55,6 @@ def make_fc_links():
     parts_group.Visibility = False
 
     doc.recompute()
-
-
-def add_joint(
-        robot: fc.DocumentObject,
-        name: str,
-        origin: Placement,
-        ) -> fc.DocumentObject:
-    joint = make_joint(name)
-    robot.addObject(joint)
-    joint.Label2 = name
-    joint.Origin = origin
-    joint.Type = 'revolute'
-    return joint
-
-
-def add_cross_link(
-        robot: fc.DocumentObject,
-        name: str,
-        name_visual: str,
-        name_collision: str,
-        mounted_placement: Placement,
-        ) -> fc.DocumentObject:
-    doc = robot.Document
-    cross_link = make_link(name)
-    robot.addObject(cross_link)
-    cross_link.Label2 = name
-    cross_link.Visual = [get_object(doc, name_visual)]
-    cross_link.Collision = [get_object(doc, name_collision)]
-    cross_link.MountedPlacement = mounted_placement
-    return cross_link
 
 
 def make_mobile_robot():
