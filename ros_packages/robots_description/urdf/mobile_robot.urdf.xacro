@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<robot name="mobile_manipulator" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find robots_description)/urdf/mobile_robot_macro.xacro"/>
+  
+  <xacro:mobile_robot prefix=""/>
+  
+</robot>

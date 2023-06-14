@@ -1,0 +1,249 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="mobile_robot" params="prefix">
+  
+	  <link name="${prefix}base_link">
+	    <visual>
+	      <!--undercarriage001-->
+	      <origin rpy="0.0 -0.0 -1.570796326794897" xyz="0.0 0.0 0.0"/>
+	      <geometry>
+		<mesh filename="package://robots_description/meshes/undercarriage001.dae"/>
+	      </geometry>
+	    </visual>
+	    <collision>
+	      <origin rpy="0.0 -0.0 -1.570796326794897" xyz="0.0 2.84217e-17 0.0075"/>
+	      <geometry>
+		<box size="0.3 0.4 0.025"/>
+	      </geometry>
+	    </collision>
+	    <inertial>
+	      <mass value="0.0"/>
+	      <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.0"/>
+	      <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+	    </inertial>
+	  </link>
+	  <link name="${prefix}hub_hr">
+	    <visual>
+	      <!--hub001-->
+	      <origin rpy="0.0 -0.0 -1.570796326794897" xyz="0.0 0.0 0.0"/>
+	      <geometry>
+		<mesh filename="package://robots_description/meshes/hub001.dae"/>
+	      </geometry>
+	    </visual>
+	    <collision>
+	      <origin rpy="0.0 -0.0 -1.570796326794897" xyz="0.0 0.0 0.0325"/>
+	      <geometry>
+		<box size="0.05 0.05 0.065"/>
+	      </geometry>
+	    </collision>
+	    <inertial>
+	      <mass value="0.0"/>
+	      <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.0"/>
+	      <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+	    </inertial>
+	  </link>
+	  <link name="${prefix}hub_hl">
+	    <visual>
+	      <!--hub001-->
+	      <origin rpy="0.0 -0.0 -1.570796326794897" xyz="0.0 0.0 0.0"/>
+	      <geometry>
+		<mesh filename="package://robots_description/meshes/hub001.dae"/>
+	      </geometry>
+	    </visual>
+	    <collision>
+	      <origin rpy="0.0 -0.0 -1.570796326794897" xyz="0.0 0.0 0.0325"/>
+	      <geometry>
+		<box size="0.05 0.05 0.065"/>
+	      </geometry>
+	    </collision>
+	    <inertial>
+	      <mass value="0.0"/>
+	      <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.0"/>
+	      <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+	    </inertial>
+	  </link>
+	  <link name="${prefix}hub_br">
+	    <visual>
+	      <!--hub001-->
+	      <origin rpy="0.0 -0.0 -1.570796326794897" xyz="0.0 0.0 0.0"/>
+	      <geometry>
+		<mesh filename="package://robots_description/meshes/hub001.dae"/>
+	      </geometry>
+	    </visual>
+	    <collision>
+	      <origin rpy="0.0 -0.0 -1.570796326794897" xyz="0.0 0.0 0.0325"/>
+	      <geometry>
+		<box size="0.05 0.05 0.065"/>
+	      </geometry>
+	    </collision>
+	    <inertial>
+	      <mass value="0.0"/>
+	      <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.0"/>
+	      <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+	    </inertial>
+	  </link>
+	  <link name="${prefix}hub_bl">
+	    <visual>
+	      <!--hub001-->
+	      <origin rpy="0.0 -0.0 -1.570796326794897" xyz="0.0 0.0 0.0"/>
+	      <geometry>
+		<mesh filename="package://robots_description/meshes/hub001.dae"/>
+	      </geometry>
+	    </visual>
+	    <collision>
+	      <origin rpy="0.0 -0.0 -1.570796326794897" xyz="0.0 0.0 0.0325"/>
+	      <geometry>
+		<box size="0.05 0.05 0.065"/>
+	      </geometry>
+	    </collision>
+	    <inertial>
+	      <mass value="0.0"/>
+	      <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.0"/>
+	      <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+	    </inertial>
+	  </link>
+	  <link name="${prefix}wheel_hr">
+	    <visual>
+	      <!--Body002-->
+	      <origin rpy="3.141592653589793 -0.0 -1.570796326794897" xyz="0.0 0.0 0.01"/>
+	      <geometry>
+		<mesh filename="package://robots_description/meshes/Body002.dae"/>
+	      </geometry>
+	    </visual>
+	    <collision>
+	      <!--Body003-->
+	      <origin rpy="3.141592653589793 -0.0 -1.570796326794897" xyz="0.0 0.0 0.01"/>
+	      <geometry>
+		<mesh filename="package://robots_description/meshes/Body003.dae"/>
+	      </geometry>
+	    </collision>
+	    <inertial>
+	      <mass value="0.0"/>
+	      <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.0"/>
+	      <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+	    </inertial>
+	  </link>
+	  <link name="${prefix}wheel_hl">
+	    <visual>
+	      <!--Body002-->
+	      <origin rpy="3.141592653589793 -0.0 -1.570796326794897" xyz="0.0 0.0 0.01"/>
+	      <geometry>
+		<mesh filename="package://robots_description/meshes/Body002.dae"/>
+	      </geometry>
+	    </visual>
+	    <collision>
+	      <!--Body003-->
+	      <origin rpy="3.141592653589793 -0.0 -1.570796326794897" xyz="0.0 0.0 0.01"/>
+	      <geometry>
+		<mesh filename="package://robots_description/meshes/Body003.dae"/>
+	      </geometry>
+	    </collision>
+	    <inertial>
+	      <mass value="0.0"/>
+	      <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.0"/>
+	      <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+	    </inertial>
+	  </link>
+	  <link name="${prefix}wheel_br">
+	    <visual>
+	      <!--Body002-->
+	      <origin rpy="3.141592653589793 -0.0 -1.570796326794897" xyz="0.0 0.0 0.01"/>
+	      <geometry>
+		<mesh filename="package://robots_description/meshes/Body002.dae"/>
+	      </geometry>
+	    </visual>
+	    <collision>
+	      <!--Body003-->
+	      <origin rpy="3.141592653589793 -0.0 -1.570796326794897" xyz="0.0 0.0 0.01"/>
+	      <geometry>
+		<mesh filename="package://robots_description/meshes/Body003.dae"/>
+	      </geometry>
+	    </collision>
+	    <inertial>
+	      <mass value="0.0"/>
+	      <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.0"/>
+	      <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+	    </inertial>
+	  </link>
+	  <link name="${prefix}wheel_bl">
+	    <visual>
+	      <!--Body002-->
+	      <origin rpy="3.141592653589793 -0.0 -1.570796326794897" xyz="0.0 0.0 0.01"/>
+	      <geometry>
+		<mesh filename="package://robots_description/meshes/Body002.dae"/>
+	      </geometry>
+	    </visual>
+	    <collision>
+	      <!--Body003-->
+	      <origin rpy="3.141592653589793 -0.0 -1.570796326794897" xyz="0.0 0.0 0.01"/>
+	      <geometry>
+		<mesh filename="package://robots_description/meshes/Body003.dae"/>
+	      </geometry>
+	    </collision>
+	    <inertial>
+	      <mass value="0.0"/>
+	      <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.0"/>
+	      <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+	    </inertial>
+	  </link>
+	  <joint name="${prefix}base_link-hub_hr" type="revolute">
+	    <parent link="${prefix}base_link"/>
+	    <child link="${prefix}hub_hr"/>
+	    <origin rpy="3.141592653589793 -0.0 0.0" xyz="-0.3 -0.2 -0.005"/>
+	    <axis xyz="0 0 1"/>
+	    <limit effort="0.0" lower="0.0" upper="0.0" velocity="0.0"/>
+	  </joint>
+	  <joint name="${prefix}base_link-hub_hl" type="revolute">
+	    <parent link="${prefix}base_link"/>
+	    <child link="${prefix}hub_hl"/>
+	    <origin rpy="3.141592653589793 1.224646799147353e-16 3.141592653589793" xyz="-0.3 0.2 -0.005"/>
+	    <axis xyz="0 0 1"/>
+	    <limit effort="0.0" lower="0.0" upper="0.0" velocity="0.0"/>
+	  </joint>
+	  <joint name="${prefix}base_link-hub_br" type="revolute">
+	    <parent link="${prefix}base_link"/>
+	    <child link="${prefix}hub_br"/>
+	    <origin rpy="3.141592653589793 -0.0 0.0" xyz="0.3 -0.2 -0.005"/>
+	    <axis xyz="0 0 1"/>
+	    <limit effort="0.0" lower="0.0" upper="0.0" velocity="0.0"/>
+	  </joint>
+	  <joint name="${prefix}base_link-hub_bl" type="revolute">
+	    <parent link="${prefix}base_link"/>
+	    <child link="${prefix}hub_bl"/>
+	    <origin rpy="3.141592653589793 1.224646799147353e-16 3.141592653589793" xyz="0.3 0.2 -0.005"/>
+	    <axis xyz="0 0 1"/>
+	    <limit effort="0.0" lower="0.0" upper="0.0" velocity="0.0"/>
+	  </joint>
+	  <joint name="${prefix}hub_hr-wheel_hr" type="revolute">
+	    <parent link="${prefix}hub_hr"/>
+	    <child link="${prefix}wheel_hr"/>
+	    <origin rpy="-1.570796326794897 -0.0 0.0" xyz="0.0 0.02 0.09"/>
+	    <axis xyz="0 0 1"/>
+	    <limit effort="0.0" lower="0.0" upper="0.0" velocity="0.0"/>
+	  </joint>
+	  <joint name="${prefix}hub_hl-wheel_hl" type="revolute">
+	    <parent link="${prefix}hub_hl"/>
+	    <child link="${prefix}wheel_hl"/>
+	    <origin rpy="-1.570796326794897 -0.0 0.0" xyz="0.0 0.02 0.09"/>
+	    <axis xyz="0 0 1"/>
+	    <limit effort="0.0" lower="0.0" upper="0.0" velocity="0.0"/>
+	  </joint>
+	  <joint name="${prefix}hub_br-wheel_br" type="revolute">
+	    <parent link="${prefix}hub_br"/>
+	    <child link="${prefix}wheel_br"/>
+	    <origin rpy="-1.570796326794897 -0.0 0.0" xyz="0.0 0.02 0.09"/>
+	    <axis xyz="0 0 1"/>
+	    <limit effort="0.0" lower="0.0" upper="0.0" velocity="0.0"/>
+	  </joint>
+	  <joint name="${prefix}hub_bl-wheel_bl" type="revolute">
+	    <parent link="${prefix}hub_bl"/>
+	    <child link="${prefix}wheel_bl"/>
+	    <origin rpy="-1.570796326794897 -0.0 0.0" xyz="0.0 0.02 0.09"/>
+	    <axis xyz="0 0 1"/>
+	    <limit effort="0.0" lower="0.0" upper="0.0" velocity="0.0"/>
+	  </joint>
+	  
+  </xacro:macro>
+  
+</robot>
