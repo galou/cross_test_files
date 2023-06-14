@@ -62,7 +62,7 @@ def make_mobile_robot():
 
     robot = make_robot('mobile_robot')
 
-    undercarriage = add_cross_link(robot, 'undercarriage',
+    base_link = add_cross_link(robot, 'base_link',
                                    'visual_undercarriage', 'collision_undercarriage',
                                    Placement(Vector(), rotz(-90.0)))
 
@@ -90,29 +90,29 @@ def make_mobile_robot():
     wheel_bl = add_cross_link(robot, 'wheel_bl', 'visual_wheel', 'collision_wheel',
                               Placement(Vector(0.0, 0.0, 10.0), rotz(-90.0) * rotx(-180.0)))
 
-    joint_hub_hr = add_joint(robot, 'undercarriage-hub_hr',
-                             Placement(Vector(-150.0, -100.0, -5.0), rotx(180.0)))
+    joint_hub_hr = add_joint(robot, 'base_link-hub_hr',
+                             Placement(Vector(-300.0, -200.0, -5.0), rotx(180.0)))
 
-    joint_hub_hl = add_joint(robot, 'undercarriage-hub_hl',
-                             Placement(Vector(-150.0, 100.0, -5.0), roty(180.0)))
+    joint_hub_hl = add_joint(robot, 'base_link-hub_hl',
+                             Placement(Vector(-300.0, 200.0, -5.0), roty(180.0)))
 
-    joint_hub_br = add_joint(robot, 'undercarriage-hub_br',
-                             Placement(Vector(150.0, -100.0, -5.0), rotx(180.0)))
+    joint_hub_br = add_joint(robot, 'base_link-hub_br',
+                             Placement(Vector(300.0, -200.0, -5.0), rotx(180.0)))
 
-    joint_hub_bl = add_joint(robot, 'undercarriage-hub_bl',
-                             Placement(Vector(150.0, 100.0, -5.0), roty(180.0)))
+    joint_hub_bl = add_joint(robot, 'base_link-hub_bl',
+                             Placement(Vector(300.0, 200.0, -5.0), roty(180.0)))
 
     joint_wheel_hr = add_joint(robot, 'hub_hr-wheel_hr',
-                               Placement(Vector(5.0, 0.0, 45.0), rotx(-90.0)))
+                               Placement(Vector(0.0, 20.0, 90.0), rotx(-90.0)))
 
     joint_wheel_hl = add_joint(robot, 'hub_hl-wheel_hl',
-                               Placement(Vector(5.0, 0.0, 45.0), rotx(-90.0)))
+                               Placement(Vector(0.0, 20.0, 90.0), rotx(-90.0)))
 
     joint_wheel_br = add_joint(robot, 'hub_br-wheel_br',
-                               Placement(Vector(5.0, 0.0, 45.0), rotx(-90.0)))
+                               Placement(Vector(0.0, 20.0, 90.0), rotx(-90.0)))
 
     joint_wheel_bl = add_joint(robot, 'hub_bl-wheel_bl',
-                               Placement(Vector(5.0, 0.0, 45.0), rotx(-90.0)))
+                               Placement(Vector(0.0, 20.0, 90.0), rotx(-90.0)))
 
     # Set visibilities after links are added.
     robot.ViewObject.ShowCollision = False
@@ -121,16 +121,16 @@ def make_mobile_robot():
     robot.ViewObject.ShowVisual = True
 
     # Set parenthoods after links are added.
-    joint_hub_hr.Parent = ros_name(undercarriage)
+    joint_hub_hr.Parent = ros_name(base_link)
     joint_hub_hr.Child = ros_name(hub_hr)
 
-    joint_hub_hl.Parent = ros_name(undercarriage)
+    joint_hub_hl.Parent = ros_name(base_link)
     joint_hub_hl.Child = ros_name(hub_hl)
 
-    joint_hub_br.Parent = ros_name(undercarriage)
+    joint_hub_br.Parent = ros_name(base_link)
     joint_hub_br.Child = ros_name(hub_br)
 
-    joint_hub_bl.Parent = ros_name(undercarriage)
+    joint_hub_bl.Parent = ros_name(base_link)
     joint_hub_bl.Child = ros_name(hub_bl)
 
     joint_wheel_hr.Parent = ros_name(hub_hr)
