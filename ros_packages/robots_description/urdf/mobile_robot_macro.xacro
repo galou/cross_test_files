@@ -5,10 +5,10 @@
   
 	  <link name="${prefix}base_link">
 	    <visual>
-	      <!--undercarriage001-->
+	      <!--undercarriage-->
 	      <origin rpy="0.0 -0.0 -1.570796326794897" xyz="0.0 0.0 0.0"/>
 	      <geometry>
-		<mesh filename="package://robots_description/meshes/undercarriage001.dae"/>
+		<mesh filename="package://robots_description/meshes/undercarriage.dae"/>
 	      </geometry>
 	    </visual>
 	    <collision>
@@ -25,10 +25,10 @@
 	  </link>
 	  <link name="${prefix}hub_hr">
 	    <visual>
-	      <!--hub001-->
+	      <!--hub-->
 	      <origin rpy="0.0 -0.0 -1.570796326794897" xyz="0.0 0.0 0.0"/>
 	      <geometry>
-		<mesh filename="package://robots_description/meshes/hub001.dae"/>
+		<mesh filename="package://robots_description/meshes/hub.dae"/>
 	      </geometry>
 	    </visual>
 	    <collision>
@@ -45,10 +45,10 @@
 	  </link>
 	  <link name="${prefix}hub_hl">
 	    <visual>
-	      <!--hub001-->
+	      <!--hub-->
 	      <origin rpy="0.0 -0.0 -1.570796326794897" xyz="0.0 0.0 0.0"/>
 	      <geometry>
-		<mesh filename="package://robots_description/meshes/hub001.dae"/>
+		<mesh filename="package://robots_description/meshes/hub.dae"/>
 	      </geometry>
 	    </visual>
 	    <collision>
@@ -65,10 +65,10 @@
 	  </link>
 	  <link name="${prefix}hub_br">
 	    <visual>
-	      <!--hub001-->
+	      <!--hub-->
 	      <origin rpy="0.0 -0.0 -1.570796326794897" xyz="0.0 0.0 0.0"/>
 	      <geometry>
-		<mesh filename="package://robots_description/meshes/hub001.dae"/>
+		<mesh filename="package://robots_description/meshes/hub.dae"/>
 	      </geometry>
 	    </visual>
 	    <collision>
@@ -85,10 +85,10 @@
 	  </link>
 	  <link name="${prefix}hub_bl">
 	    <visual>
-	      <!--hub001-->
+	      <!--hub-->
 	      <origin rpy="0.0 -0.0 -1.570796326794897" xyz="0.0 0.0 0.0"/>
 	      <geometry>
-		<mesh filename="package://robots_description/meshes/hub001.dae"/>
+		<mesh filename="package://robots_description/meshes/hub.dae"/>
 	      </geometry>
 	    </visual>
 	    <collision>
@@ -105,17 +105,17 @@
 	  </link>
 	  <link name="${prefix}wheel_hr">
 	    <visual>
-	      <!--Body002-->
+	      <!--wheel-->
 	      <origin rpy="3.141592653589793 -0.0 -1.570796326794897" xyz="0.0 0.0 0.01"/>
 	      <geometry>
-		<mesh filename="package://robots_description/meshes/Body002.dae"/>
+		<mesh filename="package://robots_description/meshes/wheel.dae"/>
 	      </geometry>
 	    </visual>
 	    <collision>
-	      <!--Body003-->
+	      <!--wheel_collision-->
 	      <origin rpy="3.141592653589793 -0.0 -1.570796326794897" xyz="0.0 0.0 0.01"/>
 	      <geometry>
-		<mesh filename="package://robots_description/meshes/Body003.dae"/>
+		<mesh filename="package://robots_description/meshes/wheel_collision.dae"/>
 	      </geometry>
 	    </collision>
 	    <inertial>
@@ -126,17 +126,17 @@
 	  </link>
 	  <link name="${prefix}wheel_hl">
 	    <visual>
-	      <!--Body002-->
+	      <!--wheel-->
 	      <origin rpy="3.141592653589793 -0.0 -1.570796326794897" xyz="0.0 0.0 0.01"/>
 	      <geometry>
-		<mesh filename="package://robots_description/meshes/Body002.dae"/>
+		<mesh filename="package://robots_description/meshes/wheel.dae"/>
 	      </geometry>
 	    </visual>
 	    <collision>
-	      <!--Body003-->
+	      <!--wheel_collision-->
 	      <origin rpy="3.141592653589793 -0.0 -1.570796326794897" xyz="0.0 0.0 0.01"/>
 	      <geometry>
-		<mesh filename="package://robots_description/meshes/Body003.dae"/>
+		<mesh filename="package://robots_description/meshes/wheel_collision.dae"/>
 	      </geometry>
 	    </collision>
 	    <inertial>
@@ -147,17 +147,17 @@
 	  </link>
 	  <link name="${prefix}wheel_br">
 	    <visual>
-	      <!--Body002-->
+	      <!--wheel-->
 	      <origin rpy="3.141592653589793 -0.0 -1.570796326794897" xyz="0.0 0.0 0.01"/>
 	      <geometry>
-		<mesh filename="package://robots_description/meshes/Body002.dae"/>
+		<mesh filename="package://robots_description/meshes/wheel.dae"/>
 	      </geometry>
 	    </visual>
 	    <collision>
-	      <!--Body003-->
+	      <!--wheel_collision-->
 	      <origin rpy="3.141592653589793 -0.0 -1.570796326794897" xyz="0.0 0.0 0.01"/>
 	      <geometry>
-		<mesh filename="package://robots_description/meshes/Body003.dae"/>
+		<mesh filename="package://robots_description/meshes/wheel_collision.dae"/>
 	      </geometry>
 	    </collision>
 	    <inertial>
@@ -168,17 +168,17 @@
 	  </link>
 	  <link name="${prefix}wheel_bl">
 	    <visual>
-	      <!--Body002-->
+	      <!--wheel-->
 	      <origin rpy="3.141592653589793 -0.0 -1.570796326794897" xyz="0.0 0.0 0.01"/>
 	      <geometry>
-		<mesh filename="package://robots_description/meshes/Body002.dae"/>
+		<mesh filename="package://robots_description/meshes/wheel.dae"/>
 	      </geometry>
 	    </visual>
 	    <collision>
-	      <!--Body003-->
+	      <!--wheel_collision-->
 	      <origin rpy="3.141592653589793 -0.0 -1.570796326794897" xyz="0.0 0.0 0.01"/>
 	      <geometry>
-		<mesh filename="package://robots_description/meshes/Body003.dae"/>
+		<mesh filename="package://robots_description/meshes/wheel_collision.dae"/>
 	      </geometry>
 	    </collision>
 	    <inertial>
