@@ -1,0 +1,87 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="robot_3r" params="prefix">
+  
+	  <link name="${prefix}base">
+	    <visual>
+	      <!--base_3r-->
+	      <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.0"/>
+	      <geometry>
+		<mesh filename="package://robots_description/meshes/base_3r.dae"/>
+	      </geometry>
+	    </visual>
+	    <inertial>
+	      <mass value="0.0"/>
+	      <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.0"/>
+	      <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+	    </inertial>
+	  </link>
+	  <link name="${prefix}shoulder">
+	    <visual>
+	      <!--shoulder_3r-->
+	      <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.0"/>
+	      <geometry>
+		<mesh filename="package://robots_description/meshes/shoulder_3r.dae"/>
+	      </geometry>
+	    </visual>
+	    <inertial>
+	      <mass value="0.0"/>
+	      <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.0"/>
+	      <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+	    </inertial>
+	  </link>
+	  <link name="${prefix}arm">
+	    <visual>
+	      <!--arm_3r-->
+	      <origin rpy="-0.0 1.5707963267948966 0.0" xyz="-0.145 0.0 0.04"/>
+	      <geometry>
+		<mesh filename="package://robots_description/meshes/arm_3r.dae"/>
+	      </geometry>
+	    </visual>
+	    <inertial>
+	      <mass value="0.0"/>
+	      <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.0"/>
+	      <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+	    </inertial>
+	  </link>
+	  <link name="${prefix}forearm">
+	    <visual>
+	      <!--forearm_3r-->
+	      <origin rpy="-0.0 1.5707963267948966 0.0" xyz="-0.03 0.0 0.04"/>
+	      <geometry>
+		<mesh filename="package://robots_description/meshes/forearm_3r.dae"/>
+	      </geometry>
+	    </visual>
+	    <inertial>
+	      <mass value="0.0"/>
+	      <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.0"/>
+	      <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+	    </inertial>
+	  </link>
+	  <joint name="${prefix}base_shoulder" type="revolute">
+	    <parent link="${prefix}base"/>
+	    <child link="${prefix}shoulder"/>
+	    <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.01"/>
+	    <axis xyz="0 0 1"/>
+	    <limit effort="0.0" lower="0.0" upper="0.0" velocity="0.0"/>
+	  </joint>
+	  <joint name="${prefix}shoulder_arm" type="revolute">
+	    <parent link="${prefix}shoulder"/>
+	    <child link="${prefix}arm"/>
+	    <origin rpy="-0.0 1.5707963267948966 0.0" xyz="0.04 0.0 0.17"/>
+	    <axis xyz="0 0 1"/>
+	    <limit effort="0.0" lower="0.0" upper="0.0" velocity="0.0"/>
+	  </joint>
+	  <joint name="${prefix}arm_forearm" type="revolute">
+	    <parent link="${prefix}arm"/>
+	    <child link="${prefix}forearm"/>
+	    <origin rpy="3.141592653589793 1.224646799147353e-16 3.141592653589793" xyz="-0.115 0.0 0.0"/>
+	    <axis xyz="0 0 1"/>
+	    <limit effort="0.0" lower="0.0" upper="0.0" velocity="0.0"/>
+	  </joint>
+	  
+  </xacro:macro>
+  
+</robot>
+
