@@ -1,9 +1,10 @@
 from pathlib import Path
 
 import FreeCAD as fc
+from FreeCAD import Placement, Rotation, Vector
+
 import FreeCADGui as fcgui
 
-from FreeCAD import Placement, Rotation, Vector
 
 from freecad.cross.freecad_utils import make_group
 from freecad.cross.robot import make_robot

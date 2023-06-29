@@ -1,18 +1,17 @@
 # Generate a robot with just a link.
 # Generate robot_0.
 
+import FreeCAD as fc
 from FreeCAD import Vector, Placement, Rotation
-import Sketcher
-import Part
-import FreeCAD as app
+
+import FreeCADGui as fcgui
 
 from freecad.cross.link import make_link
 from freecad.cross.robot import make_robot
-from freecad.cross.wb_utils import ros_name
 
 
 def make_robot_0():
-    doc = app.activeDocument()
+    doc = fc.activeDocument()
 
     cylinder = doc.addObject('Part::Cylinder', 'Cylinder')
     cylinder.Radius = 5.0
@@ -47,3 +46,4 @@ def make_robot_0():
 
 
 make_robot_0()
+fcgui.SendMsgToActiveView('ViewFit')

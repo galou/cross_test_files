@@ -2,9 +2,9 @@
 # Generate robot_1r.fcstd.
 
 from FreeCAD import Vector, Placement, Rotation
-import Sketcher
-import Part
-import FreeCAD as app
+import FreeCAD as fc
+
+import FreeCADGui as fcgui
 
 from freecad.cross.joint import make_joint
 from freecad.cross.link import make_link
@@ -13,7 +13,7 @@ from freecad.cross.wb_utils import ros_name
 
 
 def make_robot_1r():
-    doc = app.activeDocument()
+    doc = fc.activeDocument()
 
     cylinder = doc.addObject('Part::Cylinder', 'Cylinder')
     cylinder.Radius = 5.0
@@ -49,7 +49,7 @@ def make_robot_1r():
     base_link.MountedPlacement = Placement(Vector(0.0, 0.0, 0.0),
                                            Rotation(0.0, 0.0, 0.0, 1.0))
 
-    shoulder_link = make_link('shoulder_link', doc)
+    shoulder_link = make_link('shoulder', doc)
     robot_1r.addObject(shoulder_link)
     shoulder_link.Label2 = 'shoulder'
     shoulder_link.Visual = [shoulder]
@@ -78,3 +78,4 @@ def make_robot_1r():
 
 
 make_robot_1r()
+fcgui.SendMsgToActiveView('ViewFit')

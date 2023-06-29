@@ -1,14 +1,13 @@
 from pathlib import Path
 
 import FreeCAD as fc
-import FreeCADGui as fcgui
-
 from FreeCAD import Placement, Rotation, Vector
+
+import FreeCADGui as fcgui
 
 from freecad.cross.freecad_utils import make_group
 from freecad.cross.robot import make_robot
 from freecad.cross.wb_utils import ros_name
-
 
 from cross_macro_utils import add_cross_link
 from cross_macro_utils import add_joint
