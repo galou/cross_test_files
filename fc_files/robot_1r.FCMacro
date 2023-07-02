@@ -1,5 +1,5 @@
 # Generate a robot with one revolute joint.
-# Generate robot_1r.fcstd.
+# Generate robot_1r.FCStd.
 
 from FreeCAD import Vector, Placement, Rotation
 import FreeCAD as fc

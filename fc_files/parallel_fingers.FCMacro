@@ -22,7 +22,7 @@ def get_object(doc: fc.Document, label: str):
 def make_links():
     doc = fc.activeDocument()
     dir = Path(doc.FileName).parent
-    parts_doc = fc.open(str(dir / 'parallel_fingers-parts.fcstd'))
+    parts_doc = fc.open(str(dir / 'parallel_fingers-parts.FCStd'))
     fc.setActiveDocument(doc.Name)
 
     visual_palm_ = doc.addObject('App::Link', 'visual_palm_')

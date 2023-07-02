@@ -20,8 +20,8 @@ from cross_macro_utils import rotz
 def make_links():
     doc = fc.activeDocument()
     dir = Path(doc.FileName).parent
-    robot5r_parts_doc = fc.open(str(dir / 'robot_5r-parts.fcstd'))
-    fingers_parts_doc = fc.open(str(dir / 'parallel_fingers-parts.fcstd'))
+    robot5r_parts_doc = fc.open(str(dir / 'robot_5r-parts.FCStd'))
+    fingers_parts_doc = fc.open(str(dir / 'parallel_fingers-parts.FCStd'))
     fc.setActiveDocument(doc.Name)
 
     visual_base_ = doc.addObject('App::Link', 'visual_base_')
