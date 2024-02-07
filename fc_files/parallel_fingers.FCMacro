@@ -7,9 +7,9 @@ import FreeCADGui as fcgui
 from FreeCAD import Vector, Placement, Rotation
 
 from freecad.cross.freecad_utils import make_group
-from freecad.cross.joint import make_joint
-from freecad.cross.link import make_link
-from freecad.cross.robot import make_robot
+from freecad.cross.joint_proxy import make_joint
+from freecad.cross.link_proxy import make_link
+from freecad.cross.robot_proxy import make_robot
 from freecad.cross.wb_utils import ros_name
 
 

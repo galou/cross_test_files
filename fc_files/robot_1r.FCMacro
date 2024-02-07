@@ -6,9 +6,9 @@ import FreeCAD as fc
 
 import FreeCADGui as fcgui
 
-from freecad.cross.joint import make_joint
-from freecad.cross.link import make_link
-from freecad.cross.robot import make_robot
+from freecad.cross.joint_proxy import make_joint
+from freecad.cross.link_proxy import make_link
+from freecad.cross.robot_proxy import make_robot
 from freecad.cross.wb_utils import ros_name
 
 

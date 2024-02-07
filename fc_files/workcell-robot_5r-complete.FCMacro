@@ -3,9 +3,9 @@ from FreeCAD import Placement, Rotation, Vector
 
 import FreeCADGui as fcgui
 
-from freecad.cross.joint import make_joint
-from freecad.cross.xacro_object import make_xacro_object
-from freecad.cross.workcell import make_workcell
+from freecad.cross.joint_proxy import make_joint
+from freecad.cross.xacro_object_proxy import make_xacro_object
+from freecad.cross.workcell_proxy import make_workcell
 
 
 def make_robot_5r_complete():

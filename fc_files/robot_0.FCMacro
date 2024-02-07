@@ -6,8 +6,8 @@ from FreeCAD import Vector, Placement, Rotation
 
 import FreeCADGui as fcgui
 
-from freecad.cross.link import make_link
-from freecad.cross.robot import make_robot
+from freecad.cross.link_proxy import make_link
+from freecad.cross.robot_proxy import make_robot
 
 
 def make_robot_0():

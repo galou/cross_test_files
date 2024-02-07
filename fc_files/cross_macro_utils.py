@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import FreeCAD as fc
 
-from freecad.cross.joint import make_joint
-from freecad.cross.link import make_link
+from freecad.cross.joint_proxy import make_joint
+from freecad.cross.link_proxy import make_link
 
 
 def get_object(doc: fc.Document, label: str):
